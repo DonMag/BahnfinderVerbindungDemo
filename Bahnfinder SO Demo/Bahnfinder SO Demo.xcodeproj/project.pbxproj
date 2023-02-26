@@ -1,0 +1,668 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5794444429AC1F0500A1DF09 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5794444329AC1F0500A1DF09 /* AppDelegate.swift */; };
+		5794444629AC1F0500A1DF09 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5794444529AC1F0500A1DF09 /* SceneDelegate.swift */; };
+		5794444B29AC1F0500A1DF09 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5794444929AC1F0500A1DF09 /* Main.storyboard */; };
+		5794444D29AC1F0600A1DF09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5794444C29AC1F0600A1DF09 /* Assets.xcassets */; };
+		5794445029AC1F0600A1DF09 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5794444E29AC1F0600A1DF09 /* LaunchScreen.storyboard */; };
+		5794445B29AC1F0700A1DF09 /* Bahnfinder_SO_DemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5794445A29AC1F0700A1DF09 /* Bahnfinder_SO_DemoTests.swift */; };
+		5794446529AC1F0700A1DF09 /* Bahnfinder_SO_DemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5794446429AC1F0700A1DF09 /* Bahnfinder_SO_DemoUITests.swift */; };
+		5794446729AC1F0700A1DF09 /* Bahnfinder_SO_DemoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5794446629AC1F0700A1DF09 /* Bahnfinder_SO_DemoUITestsLaunchTests.swift */; };
+		5794447829AC1F3500A1DF09 /* detailVerbindungViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5794447329AC1F3500A1DF09 /* detailVerbindungViewController.swift */; };
+		5794447929AC1F3500A1DF09 /* detailVerbindungTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5794447429AC1F3500A1DF09 /* detailVerbindungTableViewCell.swift */; };
+		5794447A29AC1F3500A1DF09 /* detailVerbindungIntermediateStopsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5794447529AC1F3500A1DF09 /* detailVerbindungIntermediateStopsView.xib */; };
+		5794447B29AC1F3500A1DF09 /* detailVerbindungIntermediateStopTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5794447629AC1F3500A1DF09 /* detailVerbindungIntermediateStopTableViewCell.swift */; };
+		5794447C29AC1F3500A1DF09 /* detailVerbindungIntermediateStopsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5794447729AC1F3500A1DF09 /* detailVerbindungIntermediateStopsTableView.swift */; };
+		5794447F29AC1F4C00A1DF09 /* TripKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5794447E29AC1F4C00A1DF09 /* TripKit */; };
+		5794448229AC1F7300A1DF09 /* LineHalfTriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5794448029AC1F7300A1DF09 /* LineHalfTriangleView.swift */; };
+		5794448329AC1F7300A1DF09 /* LineNumberLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5794448129AC1F7300A1DF09 /* LineNumberLabel.swift */; };
+		5794448529AC1FB300A1DF09 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5794448429AC1FB300A1DF09 /* Extensions.swift */; };
+		5794448729AC1FB600A1DF09 /* Public Definitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5794448629AC1FB600A1DF09 /* Public Definitions.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		5794445729AC1F0700A1DF09 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5794443829AC1F0500A1DF09 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5794443F29AC1F0500A1DF09;
+			remoteInfo = "Bahnfinder SO Demo";
+		};
+		5794446129AC1F0700A1DF09 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5794443829AC1F0500A1DF09 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5794443F29AC1F0500A1DF09;
+			remoteInfo = "Bahnfinder SO Demo";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		5794444029AC1F0500A1DF09 /* Bahnfinder SO Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bahnfinder SO Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5794444329AC1F0500A1DF09 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		5794444529AC1F0500A1DF09 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		5794444A29AC1F0500A1DF09 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		5794444C29AC1F0600A1DF09 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5794444F29AC1F0600A1DF09 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		5794445129AC1F0600A1DF09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5794445629AC1F0700A1DF09 /* Bahnfinder SO DemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Bahnfinder SO DemoTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5794445A29AC1F0700A1DF09 /* Bahnfinder_SO_DemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bahnfinder_SO_DemoTests.swift; sourceTree = "<group>"; };
+		5794446029AC1F0700A1DF09 /* Bahnfinder SO DemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Bahnfinder SO DemoUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5794446429AC1F0700A1DF09 /* Bahnfinder_SO_DemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bahnfinder_SO_DemoUITests.swift; sourceTree = "<group>"; };
+		5794446629AC1F0700A1DF09 /* Bahnfinder_SO_DemoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bahnfinder_SO_DemoUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		5794447329AC1F3500A1DF09 /* detailVerbindungViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = detailVerbindungViewController.swift; sourceTree = "<group>"; };
+		5794447429AC1F3500A1DF09 /* detailVerbindungTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = detailVerbindungTableViewCell.swift; sourceTree = "<group>"; };
+		5794447529AC1F3500A1DF09 /* detailVerbindungIntermediateStopsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = detailVerbindungIntermediateStopsView.xib; sourceTree = "<group>"; };
+		5794447629AC1F3500A1DF09 /* detailVerbindungIntermediateStopTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = detailVerbindungIntermediateStopTableViewCell.swift; sourceTree = "<group>"; };
+		5794447729AC1F3500A1DF09 /* detailVerbindungIntermediateStopsTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = detailVerbindungIntermediateStopsTableView.swift; sourceTree = "<group>"; };
+		5794448029AC1F7300A1DF09 /* LineHalfTriangleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineHalfTriangleView.swift; sourceTree = "<group>"; };
+		5794448129AC1F7300A1DF09 /* LineNumberLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineNumberLabel.swift; sourceTree = "<group>"; };
+		5794448429AC1FB300A1DF09 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		5794448629AC1FB600A1DF09 /* Public Definitions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Public Definitions.swift"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5794443D29AC1F0500A1DF09 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5794447F29AC1F4C00A1DF09 /* TripKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5794445329AC1F0700A1DF09 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5794445D29AC1F0700A1DF09 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5794443729AC1F0500A1DF09 = {
+			isa = PBXGroup;
+			children = (
+				5794444229AC1F0500A1DF09 /* Bahnfinder SO Demo */,
+				5794445929AC1F0700A1DF09 /* Bahnfinder SO DemoTests */,
+				5794446329AC1F0700A1DF09 /* Bahnfinder SO DemoUITests */,
+				5794444129AC1F0500A1DF09 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5794444129AC1F0500A1DF09 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5794444029AC1F0500A1DF09 /* Bahnfinder SO Demo.app */,
+				5794445629AC1F0700A1DF09 /* Bahnfinder SO DemoTests.xctest */,
+				5794446029AC1F0700A1DF09 /* Bahnfinder SO DemoUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5794444229AC1F0500A1DF09 /* Bahnfinder SO Demo */ = {
+			isa = PBXGroup;
+			children = (
+				5794444329AC1F0500A1DF09 /* AppDelegate.swift */,
+				5794444529AC1F0500A1DF09 /* SceneDelegate.swift */,
+				5794444929AC1F0500A1DF09 /* Main.storyboard */,
+				5794444C29AC1F0600A1DF09 /* Assets.xcassets */,
+				5794444E29AC1F0600A1DF09 /* LaunchScreen.storyboard */,
+				5794445129AC1F0600A1DF09 /* Info.plist */,
+				5794448429AC1FB300A1DF09 /* Extensions.swift */,
+				5794448629AC1FB600A1DF09 /* Public Definitions.swift */,
+				5794447329AC1F3500A1DF09 /* detailVerbindungViewController.swift */,
+				5794447729AC1F3500A1DF09 /* detailVerbindungIntermediateStopsTableView.swift */,
+				5794447529AC1F3500A1DF09 /* detailVerbindungIntermediateStopsView.xib */,
+				5794447629AC1F3500A1DF09 /* detailVerbindungIntermediateStopTableViewCell.swift */,
+				5794447429AC1F3500A1DF09 /* detailVerbindungTableViewCell.swift */,
+				5794448029AC1F7300A1DF09 /* LineHalfTriangleView.swift */,
+				5794448129AC1F7300A1DF09 /* LineNumberLabel.swift */,
+			);
+			path = "Bahnfinder SO Demo";
+			sourceTree = "<group>";
+		};
+		5794445929AC1F0700A1DF09 /* Bahnfinder SO DemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				5794445A29AC1F0700A1DF09 /* Bahnfinder_SO_DemoTests.swift */,
+			);
+			path = "Bahnfinder SO DemoTests";
+			sourceTree = "<group>";
+		};
+		5794446329AC1F0700A1DF09 /* Bahnfinder SO DemoUITests */ = {
+			isa = PBXGroup;
+			children = (
+				5794446429AC1F0700A1DF09 /* Bahnfinder_SO_DemoUITests.swift */,
+				5794446629AC1F0700A1DF09 /* Bahnfinder_SO_DemoUITestsLaunchTests.swift */,
+			);
+			path = "Bahnfinder SO DemoUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5794443F29AC1F0500A1DF09 /* Bahnfinder SO Demo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5794446A29AC1F0700A1DF09 /* Build configuration list for PBXNativeTarget "Bahnfinder SO Demo" */;
+			buildPhases = (
+				5794443C29AC1F0500A1DF09 /* Sources */,
+				5794443D29AC1F0500A1DF09 /* Frameworks */,
+				5794443E29AC1F0500A1DF09 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Bahnfinder SO Demo";
+			packageProductDependencies = (
+				5794447E29AC1F4C00A1DF09 /* TripKit */,
+			);
+			productName = "Bahnfinder SO Demo";
+			productReference = 5794444029AC1F0500A1DF09 /* Bahnfinder SO Demo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		5794445529AC1F0700A1DF09 /* Bahnfinder SO DemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5794446D29AC1F0700A1DF09 /* Build configuration list for PBXNativeTarget "Bahnfinder SO DemoTests" */;
+			buildPhases = (
+				5794445229AC1F0700A1DF09 /* Sources */,
+				5794445329AC1F0700A1DF09 /* Frameworks */,
+				5794445429AC1F0700A1DF09 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5794445829AC1F0700A1DF09 /* PBXTargetDependency */,
+			);
+			name = "Bahnfinder SO DemoTests";
+			productName = "Bahnfinder SO DemoTests";
+			productReference = 5794445629AC1F0700A1DF09 /* Bahnfinder SO DemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		5794445F29AC1F0700A1DF09 /* Bahnfinder SO DemoUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5794447029AC1F0700A1DF09 /* Build configuration list for PBXNativeTarget "Bahnfinder SO DemoUITests" */;
+			buildPhases = (
+				5794445C29AC1F0700A1DF09 /* Sources */,
+				5794445D29AC1F0700A1DF09 /* Frameworks */,
+				5794445E29AC1F0700A1DF09 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5794446229AC1F0700A1DF09 /* PBXTargetDependency */,
+			);
+			name = "Bahnfinder SO DemoUITests";
+			productName = "Bahnfinder SO DemoUITests";
+			productReference = 5794446029AC1F0700A1DF09 /* Bahnfinder SO DemoUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5794443829AC1F0500A1DF09 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1430;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					5794443F29AC1F0500A1DF09 = {
+						CreatedOnToolsVersion = 14.3;
+					};
+					5794445529AC1F0700A1DF09 = {
+						CreatedOnToolsVersion = 14.3;
+						TestTargetID = 5794443F29AC1F0500A1DF09;
+					};
+					5794445F29AC1F0700A1DF09 = {
+						CreatedOnToolsVersion = 14.3;
+						TestTargetID = 5794443F29AC1F0500A1DF09;
+					};
+				};
+			};
+			buildConfigurationList = 5794443B29AC1F0500A1DF09 /* Build configuration list for PBXProject "Bahnfinder SO Demo" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 5794443729AC1F0500A1DF09;
+			packageReferences = (
+				5794447D29AC1F4C00A1DF09 /* XCRemoteSwiftPackageReference "tripkit" */,
+			);
+			productRefGroup = 5794444129AC1F0500A1DF09 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5794443F29AC1F0500A1DF09 /* Bahnfinder SO Demo */,
+				5794445529AC1F0700A1DF09 /* Bahnfinder SO DemoTests */,
+				5794445F29AC1F0700A1DF09 /* Bahnfinder SO DemoUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5794443E29AC1F0500A1DF09 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5794447A29AC1F3500A1DF09 /* detailVerbindungIntermediateStopsView.xib in Resources */,
+				5794445029AC1F0600A1DF09 /* LaunchScreen.storyboard in Resources */,
+				5794444D29AC1F0600A1DF09 /* Assets.xcassets in Resources */,
+				5794444B29AC1F0500A1DF09 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5794445429AC1F0700A1DF09 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5794445E29AC1F0700A1DF09 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5794443C29AC1F0500A1DF09 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5794447B29AC1F3500A1DF09 /* detailVerbindungIntermediateStopTableViewCell.swift in Sources */,
+				5794448529AC1FB300A1DF09 /* Extensions.swift in Sources */,
+				5794448329AC1F7300A1DF09 /* LineNumberLabel.swift in Sources */,
+				5794447829AC1F3500A1DF09 /* detailVerbindungViewController.swift in Sources */,
+				5794444429AC1F0500A1DF09 /* AppDelegate.swift in Sources */,
+				5794448229AC1F7300A1DF09 /* LineHalfTriangleView.swift in Sources */,
+				5794447C29AC1F3500A1DF09 /* detailVerbindungIntermediateStopsTableView.swift in Sources */,
+				5794447929AC1F3500A1DF09 /* detailVerbindungTableViewCell.swift in Sources */,
+				5794448729AC1FB600A1DF09 /* Public Definitions.swift in Sources */,
+				5794444629AC1F0500A1DF09 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5794445229AC1F0700A1DF09 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5794445B29AC1F0700A1DF09 /* Bahnfinder_SO_DemoTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5794445C29AC1F0700A1DF09 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5794446729AC1F0700A1DF09 /* Bahnfinder_SO_DemoUITestsLaunchTests.swift in Sources */,
+				5794446529AC1F0700A1DF09 /* Bahnfinder_SO_DemoUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5794445829AC1F0700A1DF09 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5794443F29AC1F0500A1DF09 /* Bahnfinder SO Demo */;
+			targetProxy = 5794445729AC1F0700A1DF09 /* PBXContainerItemProxy */;
+		};
+		5794446229AC1F0700A1DF09 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5794443F29AC1F0500A1DF09 /* Bahnfinder SO Demo */;
+			targetProxy = 5794446129AC1F0700A1DF09 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		5794444929AC1F0500A1DF09 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5794444A29AC1F0500A1DF09 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		5794444E29AC1F0600A1DF09 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5794444F29AC1F0600A1DF09 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		5794446829AC1F0700A1DF09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		5794446929AC1F0700A1DF09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		5794446B29AC1F0700A1DF09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F6ZD5PBKMC;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Bahnfinder SO Demo/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.victorlobe.Bahnfinder-SO-Demo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5794446C29AC1F0700A1DF09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F6ZD5PBKMC;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Bahnfinder SO Demo/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.victorlobe.Bahnfinder-SO-Demo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		5794446E29AC1F0700A1DF09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F6ZD5PBKMC;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.victorlobe.Bahnfinder-SO-DemoTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bahnfinder SO Demo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Bahnfinder SO Demo";
+			};
+			name = Debug;
+		};
+		5794446F29AC1F0700A1DF09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F6ZD5PBKMC;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.victorlobe.Bahnfinder-SO-DemoTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bahnfinder SO Demo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Bahnfinder SO Demo";
+			};
+			name = Release;
+		};
+		5794447129AC1F0700A1DF09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F6ZD5PBKMC;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.victorlobe.Bahnfinder-SO-DemoUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Bahnfinder SO Demo";
+			};
+			name = Debug;
+		};
+		5794447229AC1F0700A1DF09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F6ZD5PBKMC;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.victorlobe.Bahnfinder-SO-DemoUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Bahnfinder SO Demo";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5794443B29AC1F0500A1DF09 /* Build configuration list for PBXProject "Bahnfinder SO Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5794446829AC1F0700A1DF09 /* Debug */,
+				5794446929AC1F0700A1DF09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5794446A29AC1F0700A1DF09 /* Build configuration list for PBXNativeTarget "Bahnfinder SO Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5794446B29AC1F0700A1DF09 /* Debug */,
+				5794446C29AC1F0700A1DF09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5794446D29AC1F0700A1DF09 /* Build configuration list for PBXNativeTarget "Bahnfinder SO DemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5794446E29AC1F0700A1DF09 /* Debug */,
+				5794446F29AC1F0700A1DF09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5794447029AC1F0700A1DF09 /* Build configuration list for PBXNativeTarget "Bahnfinder SO DemoUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5794447129AC1F0700A1DF09 /* Debug */,
+				5794447229AC1F0700A1DF09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5794447D29AC1F4C00A1DF09 /* XCRemoteSwiftPackageReference "tripkit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alexander-albers/tripkit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5794447E29AC1F4C00A1DF09 /* TripKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5794447D29AC1F4C00A1DF09 /* XCRemoteSwiftPackageReference "tripkit" */;
+			productName = TripKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 5794443829AC1F0500A1DF09 /* Project object */;
+}
