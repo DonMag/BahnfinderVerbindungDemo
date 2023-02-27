@@ -39,7 +39,18 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
         super.viewDidLoad()
         Task { @MainActor in
             // This function is normally executed by the ViewController before:
-            let (request, result) = await provider.queryTrips(from: Location(id: "A=1@O=Ratzeburg@X=10740635@Y=53698214@U=80@L=8004952@B=1@p=1677095209@"), via: nil, to: Location(id: "A=1@O=Kaiserstraße, Neubiberg@X=11666920@Y=48075399@u=120@U=80@L=622352@"), date: Date())
+			var components = DateComponents()
+			components.hour = 12
+			components.minute = 22
+			components.day = 27
+			components.month = 2
+			components.year = 2023
+			let d = Calendar.current.date(from: components) ?? Date()
+			print(d, Date())
+			
+			//            let (request, result) = await provider.queryTrips(from: Location(id: "A=1@O=Ratzeburg@X=10740635@Y=53698214@U=80@L=8004952@B=1@p=1677095209@"), via: nil, to: Location(id: "A=1@O=Kaiserstraße, Neubiberg@X=11666920@Y=48075399@u=120@U=80@L=622352@"), date: Date())
+			let (request, result) = await provider.queryTrips(from: Location(id: "A=1@O=Ratzeburg@X=10740635@Y=53698214@U=80@L=8004952@B=1@p=1677095209@"), via: nil, to: Location(id: "A=1@O=Kaiserstraße, Neubiberg@X=11666920@Y=48075399@u=120@U=80@L=622352@"), date: d)
+
             switch result {
             case .success(let context, let from, let via, let to, let trips, let messages):
                 for (index, trip) in trips.enumerated() {
@@ -50,7 +61,7 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
                     resultLegArray.append(tempLeg)
                 }
                 
-                let currentTime = Date()
+                let currentTime = d //Date()
                 let waittimeDifference = resultTripsArray[selectedIndex].departureTime.distance(to: resultTripsArray[selectedIndex].arrivalTime)
                 if waittimeDifference > 60*60 {
                     durationLabel.text = "Dauer: \(waittimeDifference.stringFromTimeIntervalWithText())"
