@@ -191,7 +191,7 @@
                                             <outlet property="timeTopLabel" destination="UbS-w1-G1p" id="Ema-f0-e3u"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="firstCell" rowHeight="71" id="EvK-NW-8Zo" customClass="DepartureCell" customModule="Bahnfinder_SO_Demo" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="departureCell" rowHeight="71" id="EvK-NW-8Zo" customClass="BahnfinderDepartureCell" customModule="Bahnfinder_SO_Demo" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="121" width="393" height="71"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EvK-NW-8Zo" id="ffi-nI-TY6">
@@ -254,7 +254,7 @@
                                             <outlet property="timeMiddleLabel" destination="rti-B5-v5F" id="lD4-A6-nhy"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="connectionCell" rowHeight="71" id="Tz8-Dc-MHG" customClass="ConnectionCell" customModule="Bahnfinder_SO_Demo" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="connectionCell" rowHeight="71" id="Tz8-Dc-MHG" customClass="BahnfinderConnectionCell" customModule="Bahnfinder_SO_Demo" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="192" width="393" height="71"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Tz8-Dc-MHG" id="hhw-rz-mVn">
@@ -290,13 +290,13 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="4Va-OE-1i3">
                                                     <rect key="frame" x="4" y="18.333333333333332" width="66" height="34.666666666666671"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5rB-LW-b1t">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5rB-LW-b1t">
                                                             <rect key="frame" x="0.0" y="0.0" width="66" height="14.333333333333334"/>
                                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1KD-Q1-82l">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1KD-Q1-82l">
                                                             <rect key="frame" x="0.0" y="20.333333333333332" width="66" height="14.333333333333332"/>
                                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
                                                             <nil key="textColor"/>
@@ -349,7 +349,7 @@
                                             <outlet property="timeTopLabel" destination="5rB-LW-b1t" id="Dkc-mP-QgP"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="lastCell" rowHeight="71" id="dbD-gJ-NUz" customClass="ArrivalCell" customModule="Bahnfinder_SO_Demo" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="arrivalCell" rowHeight="71" id="dbD-gJ-NUz" customClass="BahnfinderArrivalCell" customModule="Bahnfinder_SO_Demo" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="263" width="393" height="71"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dbD-gJ-NUz" id="ccD-kk-QTy">
@@ -420,7 +420,7 @@
                                             <outlet property="timeMiddleLabel" destination="GyL-iF-ex6" id="OEq-rM-u7a"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="detailCell" rowHeight="208" id="yVb-LU-aJi" customClass="DetailCell" customModule="Bahnfinder_SO_Demo" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="detailCell" rowHeight="208" id="yVb-LU-aJi" customClass="BahnfinderDetailCell" customModule="Bahnfinder_SO_Demo" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="334" width="393" height="208"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yVb-LU-aJi" id="gac-yc-f08">
@@ -431,7 +431,7 @@
                                                     <rect key="frame" x="4" y="62.333333333333329" width="389" height="142.66666666666669"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                     <prototypes>
-                                                        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="stopCell" id="xSa-EE-0dX" customClass="DetailIntermediateStopCell" customModule="Bahnfinder_SO_Demo" customModuleProvider="target">
+                                                        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="stopCell" id="xSa-EE-0dX" customClass="BahnfinderIntermediateStopCell" customModule="Bahnfinder_SO_Demo" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="50" width="389" height="43.666667938232422"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xSa-EE-0dX" id="att-4K-mbT">

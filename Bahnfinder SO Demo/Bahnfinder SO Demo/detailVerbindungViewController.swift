@@ -142,7 +142,9 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
         return resultLegArray[selectedIndex][0].count * 2 + 1
     }
     
-    
+	enum RowType: Int {
+		case departure, arrival, connection, detail
+	}
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
@@ -155,163 +157,178 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 		let thisResultLeg = resultLegArray[selectedIndex]
 		let thisLeg = thisResultLeg[0]
 		let arrayIndex = indexPath.row / 2
+
+		var rowType: RowType = .detail
 		
-		// MARK: even-number row
+		// let's first figure out which type of row we're on
 		if indexPath.row % 2 == 0 {
-			
 			if indexPath.row == 0 {
-				// MARK: the First row
-				let cell = tableView.dequeueReusableCell(withIdentifier: "firstCell", for: indexPath) as! DepartureCell
-				
-				cell.timeMiddleLabel.text = ""
-				
-				if thisLeg[arrayIndex] is PublicLeg {
-					print("PublicLeg")
-					
-					let tempPublicLeg = thisLeg[arrayIndex] as! PublicLeg
-					if tempPublicLeg.departureStop.predictedTime == nil {
-						cell.timeMiddleLabel.textColor = .label
-						cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempPublicLeg.departureStop.plannedTime)
-					} else if tempPublicLeg.departureStop.plannedTime == tempPublicLeg.departureStop.predictedTime {
-						cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempPublicLeg.departureStop.predictedTime!)
-						cell.timeMiddleLabel.textColor = UIColor.systemGreen
-					} else {
-						let timeDifference = tempPublicLeg.departureStop.plannedTime.distance(to: (tempPublicLeg.departureStop.predictedTime ?? tempPublicLeg.departureStop.plannedTime)!)
-						cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempPublicLeg.departureStop.predictedTime!)
-						cell.timeMiddleLabel.textColor = UIColor.systemRed
-						if timeDifference.stringFromTimeIntervalOnlyNumber().contains("-") == true {
-							cell.timeMiddleLabel.textColor = UIColor.systemBlue
-						}
-					}
-					sideColor = UIColor(argb: tempPublicLeg.line.style.backgroundColor)
-				} else {
-					print("IndividualLeg")
-					let tempIndLeg = thisLeg[arrayIndex] as! IndividualLeg
-					sideColor = UIColor.lightGray
-					cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempIndLeg.departureTime)
-					cell.timeMiddleLabel.textColor = UIColor.label
-				}
-				
-				cell.devLabel.isHidden = true
-				cell.sideLineView.backgroundColor = sideColor
-				cell.horzLineView.backgroundColor = sideColor
-				cell.destinationLabel.text = thisLeg[arrayIndex].departure.name
-				return cell
-			}
-			else
-			if arrayIndex == thisLeg.count {
-				// MARK: the Last row
-				let cell = tableView.dequeueReusableCell(withIdentifier: "lastCell", for: indexPath) as! ArrivalCell
-				
-				cell.timeMiddleLabel.text = ""
-				
-				if thisLeg.last is PublicLeg {
-					print("PublicLeg")
-					let tempPublicLeg = thisLeg.last as! PublicLeg
-					if tempPublicLeg.arrivalStop.predictedTime == nil {
-						cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempPublicLeg.plannedArrivalTime)
-						cell.timeMiddleLabel.textColor = UIColor.label
-					} else if tempPublicLeg.arrivalStop.plannedTime == tempPublicLeg.arrivalStop.predictedTime {
-						cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempPublicLeg.plannedArrivalTime)
-						cell.timeMiddleLabel.textColor = UIColor.systemGreen
-					} else {
-						let timeDifference = tempPublicLeg.plannedArrivalTime.distance(to: tempPublicLeg.arrivalTime )
-						cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempPublicLeg.arrivalTime)
-						cell.timeMiddleLabel.textColor = UIColor.systemRed
-						if timeDifference.stringFromTimeIntervalOnlyNumber().contains("-") == true {
-							cell.timeMiddleLabel.textColor = UIColor.systemBlue
-						}
-					}
-					
-					sideColor = UIColor(argb: tempPublicLeg.line.style.backgroundColor)
-				} else {
-					print("IndividualLeg")
-					let tempIndLeg = thisLeg.last as! IndividualLeg
-					cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempIndLeg.arrivalTime)
-					cell.timeMiddleLabel.textColor = UIColor.label
-					sideColor = UIColor.lightGray
-				}
-				
-				cell.devLabel.isHidden = true
-				cell.sideLineView.backgroundColor = sideColor
-				cell.horzLineView.backgroundColor = sideColor
-				cell.destinationLabel.text = thisLeg.last?.arrival.name
-				return cell
-			}
-			else
-			{
-				// MARK: the a "Connection" row
-				let cell = tableView.dequeueReusableCell(withIdentifier: "connectionCell", for: indexPath) as! ConnectionCell
-				
-				cell.timeTopLabel.text = ""
-				cell.timeBottomLabel.text = ""
-				
-				if thisLeg[arrayIndex] is PublicLeg {
-					print("PublicLeg")
-					let tempPublicLeg = thisLeg[arrayIndex] as! PublicLeg
-					
-					if tempPublicLeg.departureStop.predictedTime == nil {
-						cell.timeBottomLabel.textColor = .label
-						cell.timeBottomLabel.text = timeFormatHHMM.string(from: tempPublicLeg.departureStop.plannedTime)
-					} else if tempPublicLeg.departureStop.plannedTime == tempPublicLeg.departureStop.predictedTime {
-						cell.timeBottomLabel.text = timeFormatHHMM.string(from: tempPublicLeg.departureStop.predictedTime!)
-						cell.timeBottomLabel.textColor = UIColor.systemGreen
-					} else {
-						let timeDifference = tempPublicLeg.departureStop.plannedTime.distance(to: tempPublicLeg.departureStop.predictedTime! )
-						cell.timeBottomLabel.text = timeFormatHHMM.string(from: tempPublicLeg.departureStop.predictedTime!)
-						cell.timeBottomLabel.textColor = UIColor.systemRed
-						if timeDifference.stringFromTimeIntervalOnlyNumber().contains("-") == true {
-							cell.timeBottomLabel.textColor = UIColor.systemBlue
-						}
-					}
-					sideBottomColor = UIColor(argb: tempPublicLeg.line.style.backgroundColor)
-				} else {
-					print("IndividualLeg")
-					let tempIndLeg = thisLeg[arrayIndex] as! IndividualLeg
-					sideBottomColor = UIColor.lightGray
-					cell.timeBottomLabel.text = timeFormatHHMM.string(from: tempIndLeg.departureTime)
-					cell.timeBottomLabel.textColor = UIColor.label
-				}
-				
-				if thisLeg[arrayIndex-1] is PublicLeg { //Line before current
-					print("PublicLeg")
-					let tempPublicLeg = thisLeg[arrayIndex-1] as! PublicLeg
-					sideTopColor = UIColor(argb: tempPublicLeg.line.style.backgroundColor)
-					if tempPublicLeg.arrivalStop.predictedTime == nil {
-						cell.timeTopLabel.textColor = .label
-						cell.timeTopLabel.text = timeFormatHHMM.string(from: tempPublicLeg.arrivalStop.plannedTime)
-					} else if tempPublicLeg.arrivalStop.plannedTime == tempPublicLeg.arrivalStop.predictedTime {
-						cell.timeTopLabel.text = timeFormatHHMM.string(from: thisLeg[arrayIndex-1].arrivalTime)
-						cell.timeTopLabel.textColor = UIColor.systemGreen
-					} else {
-						let timeDifference = thisLeg[arrayIndex-1].plannedArrivalTime.distance(to: thisLeg[arrayIndex-1].arrivalTime )
-						cell.timeTopLabel.text = timeFormatHHMM.string(from: thisLeg[arrayIndex-1].arrivalTime)
-						cell.timeTopLabel.textColor = UIColor.systemRed
-						if timeDifference.stringFromTimeIntervalOnlyNumber().contains("-") == true {
-							cell.timeTopLabel.textColor = UIColor.systemBlue
-						}
-					}
-				} else {
-					print("IndividualLeg")
-					let tempIndLeg = thisLeg[arrayIndex-1] as! IndividualLeg
-					sideTopColor = UIColor.lightGray
-					cell.timeTopLabel.text = timeFormatHHMM.string(from: tempIndLeg.arrivalTime)
-					cell.timeTopLabel.textColor = UIColor.label
-				}
-				
-				cell.devLabel.isHidden = true
-				cell.sideTopLineView.backgroundColor = sideTopColor
-				cell.horzTopLineView.backgroundColor = sideTopColor
-				cell.sideBottomLineView.backgroundColor = sideBottomColor
-				cell.horzBottomLineView.backgroundColor = sideBottomColor
-				cell.destinationLabel.text = thisLeg.last?.arrival.name
-				return cell
-				
+				rowType = .departure
+			} else if arrayIndex == thisLeg.count {
+				rowType = .arrival
+			} else {
+				rowType = .connection
 			}
 		}
 		
-		// MARK: odd-number row - so this is a Detail cell
-		let cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! DetailCell
+		// MARK: the First row
+		if rowType == .departure {
+			
+			let cell = tableView.dequeueReusableCell(withIdentifier: "departureCell", for: indexPath) as! BahnfinderDepartureCell
+			
+			cell.timeMiddleLabel.text = ""
+			
+			if thisLeg[arrayIndex] is PublicLeg {
+				print("PublicLeg")
+				
+				let tempPublicLeg = thisLeg[arrayIndex] as! PublicLeg
+				if tempPublicLeg.departureStop.predictedTime == nil {
+					cell.timeMiddleLabel.textColor = .label
+					cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempPublicLeg.departureStop.plannedTime)
+				} else if tempPublicLeg.departureStop.plannedTime == tempPublicLeg.departureStop.predictedTime {
+					cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempPublicLeg.departureStop.predictedTime!)
+					cell.timeMiddleLabel.textColor = UIColor.systemGreen
+				} else {
+					let timeDifference = tempPublicLeg.departureStop.plannedTime.distance(to: (tempPublicLeg.departureStop.predictedTime ?? tempPublicLeg.departureStop.plannedTime)!)
+					cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempPublicLeg.departureStop.predictedTime!)
+					cell.timeMiddleLabel.textColor = UIColor.systemRed
+					if timeDifference.stringFromTimeIntervalOnlyNumber().contains("-") == true {
+						cell.timeMiddleLabel.textColor = UIColor.systemBlue
+					}
+				}
+				sideColor = UIColor(argb: tempPublicLeg.line.style.backgroundColor)
+			} else {
+				print("IndividualLeg")
+				let tempIndLeg = thisLeg[arrayIndex] as! IndividualLeg
+				sideColor = UIColor.lightGray
+				cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempIndLeg.departureTime)
+				cell.timeMiddleLabel.textColor = UIColor.label
+			}
+			
+			cell.devLabel.isHidden = true
+			cell.sideLineView.backgroundColor = sideColor
+			cell.horzLineView.backgroundColor = sideColor
+			cell.destinationLabel.text = thisLeg[arrayIndex].departure.name
+			return cell
+
+		}
+		
+		if rowType == .arrival {
+
+			// MARK: the Last row
+			let cell = tableView.dequeueReusableCell(withIdentifier: "arrivalCell", for: indexPath) as! BahnfinderArrivalCell
+			
+			cell.timeMiddleLabel.text = ""
+			
+			if thisLeg.last is PublicLeg {
+				print("PublicLeg")
+				let tempPublicLeg = thisLeg.last as! PublicLeg
+				if tempPublicLeg.arrivalStop.predictedTime == nil {
+					cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempPublicLeg.plannedArrivalTime)
+					cell.timeMiddleLabel.textColor = UIColor.label
+				} else if tempPublicLeg.arrivalStop.plannedTime == tempPublicLeg.arrivalStop.predictedTime {
+					cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempPublicLeg.plannedArrivalTime)
+					cell.timeMiddleLabel.textColor = UIColor.systemGreen
+				} else {
+					let timeDifference = tempPublicLeg.plannedArrivalTime.distance(to: tempPublicLeg.arrivalTime )
+					cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempPublicLeg.arrivalTime)
+					cell.timeMiddleLabel.textColor = UIColor.systemRed
+					if timeDifference.stringFromTimeIntervalOnlyNumber().contains("-") == true {
+						cell.timeMiddleLabel.textColor = UIColor.systemBlue
+					}
+				}
+				
+				sideColor = UIColor(argb: tempPublicLeg.line.style.backgroundColor)
+			} else {
+				print("IndividualLeg")
+				let tempIndLeg = thisLeg.last as! IndividualLeg
+				cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempIndLeg.arrivalTime)
+				cell.timeMiddleLabel.textColor = UIColor.label
+				sideColor = UIColor.lightGray
+			}
+			
+			cell.devLabel.isHidden = true
+			cell.sideLineView.backgroundColor = sideColor
+			cell.horzLineView.backgroundColor = sideColor
+			cell.destinationLabel.text = thisLeg.last?.arrival.name
+			return cell
+
+		}
+		
+		if rowType == .connection {
+			
+			// MARK: a "Connection" row
+			let cell = tableView.dequeueReusableCell(withIdentifier: "connectionCell", for: indexPath) as! BahnfinderConnectionCell
+			
+			cell.timeTopLabel.text = ""
+			cell.timeBottomLabel.text = ""
+			
+			if thisLeg[arrayIndex] is PublicLeg {
+				print("PublicLeg")
+				let tempPublicLeg = thisLeg[arrayIndex] as! PublicLeg
+				
+				if tempPublicLeg.departureStop.predictedTime == nil {
+					cell.timeBottomLabel.textColor = .label
+					cell.timeBottomLabel.text = timeFormatHHMM.string(from: tempPublicLeg.departureStop.plannedTime)
+				} else if tempPublicLeg.departureStop.plannedTime == tempPublicLeg.departureStop.predictedTime {
+					cell.timeBottomLabel.text = timeFormatHHMM.string(from: tempPublicLeg.departureStop.predictedTime!)
+					cell.timeBottomLabel.textColor = UIColor.systemGreen
+				} else {
+					let timeDifference = tempPublicLeg.departureStop.plannedTime.distance(to: tempPublicLeg.departureStop.predictedTime! )
+					cell.timeBottomLabel.text = timeFormatHHMM.string(from: tempPublicLeg.departureStop.predictedTime!)
+					cell.timeBottomLabel.textColor = UIColor.systemRed
+					if timeDifference.stringFromTimeIntervalOnlyNumber().contains("-") == true {
+						cell.timeBottomLabel.textColor = UIColor.systemBlue
+					}
+				}
+				sideBottomColor = UIColor(argb: tempPublicLeg.line.style.backgroundColor)
+			} else {
+				print("IndividualLeg")
+				let tempIndLeg = thisLeg[arrayIndex] as! IndividualLeg
+				sideBottomColor = UIColor.lightGray
+				cell.timeBottomLabel.text = timeFormatHHMM.string(from: tempIndLeg.departureTime)
+				cell.timeBottomLabel.textColor = UIColor.label
+			}
+			
+			if thisLeg[arrayIndex-1] is PublicLeg { //Line before current
+				print("PublicLeg")
+				let tempPublicLeg = thisLeg[arrayIndex-1] as! PublicLeg
+				sideTopColor = UIColor(argb: tempPublicLeg.line.style.backgroundColor)
+				if tempPublicLeg.arrivalStop.predictedTime == nil {
+					cell.timeTopLabel.textColor = .label
+					cell.timeTopLabel.text = timeFormatHHMM.string(from: tempPublicLeg.arrivalStop.plannedTime)
+				} else if tempPublicLeg.arrivalStop.plannedTime == tempPublicLeg.arrivalStop.predictedTime {
+					cell.timeTopLabel.text = timeFormatHHMM.string(from: thisLeg[arrayIndex-1].arrivalTime)
+					cell.timeTopLabel.textColor = UIColor.systemGreen
+				} else {
+					let timeDifference = thisLeg[arrayIndex-1].plannedArrivalTime.distance(to: thisLeg[arrayIndex-1].arrivalTime )
+					cell.timeTopLabel.text = timeFormatHHMM.string(from: thisLeg[arrayIndex-1].arrivalTime)
+					cell.timeTopLabel.textColor = UIColor.systemRed
+					if timeDifference.stringFromTimeIntervalOnlyNumber().contains("-") == true {
+						cell.timeTopLabel.textColor = UIColor.systemBlue
+					}
+				}
+			} else {
+				print("IndividualLeg")
+				let tempIndLeg = thisLeg[arrayIndex-1] as! IndividualLeg
+				sideTopColor = UIColor.lightGray
+				cell.timeTopLabel.text = timeFormatHHMM.string(from: tempIndLeg.arrivalTime)
+				cell.timeTopLabel.textColor = UIColor.label
+			}
+			
+			cell.devLabel.isHidden = true
+			cell.sideTopLineView.backgroundColor = sideTopColor
+			cell.horzTopLineView.backgroundColor = sideTopColor
+			cell.sideBottomLineView.backgroundColor = sideBottomColor
+			cell.horzBottomLineView.backgroundColor = sideBottomColor
+			cell.destinationLabel.text = thisLeg.last?.arrival.name
+			return cell
+			
+		}
+		
+		// MARK: a Detail row
+		// (it was not a .departure, .arrival or .connection row)
+		let cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! BahnfinderDetailCell
 		
 		cell.timeTopLabel.text = ""
 		cell.timeMiddleLabel.text = ""
@@ -333,8 +350,10 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 			cell.lineNumberLabel.text = tempPublicLeg.line.label ?? ""
 			cell.destinationLabel.text = tempPublicLeg.destination?.name
 			
-			// not clear what we're doing with this?
+			// not clear what we're doing with this "backgroundLineHalfHalf"?
 			//	in any case, we do NOT want to be adding subviews to the cell here
+			//	if it is to "stylize" the lineNumberLabel, that should be part of
+			//	the functionality of the custom label in the cell itself
 			if tempPublicLeg.line.style.backgroundColor2 == nil || tempPublicLeg.line.style.backgroundColor2 == 0 {
 				cell.lineNumberLabel.backgroundColorC = tempPublicLeg.line.style.backgroundColor
 			} else {
@@ -420,7 +439,7 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 			//Walk
 			print("IndividualLeg")
 			let tempIndLeg = thisLeg[arrayIndex] as! IndividualLeg
-			// cells are reused, so clear any intermediateStops
+			// cells are reused, so clear any intermediateStops that may have been set previously
 			cell.intermediateStops = []
 			cell.walkImgView.isHidden = false
 			cell.destinationLabel.text = "Fußweg: \(tempIndLeg.departure.getDistanceText(CLLocation(latitude: CLLocationDegrees(tempIndLeg.arrival.coord?.lat ?? 0)/1000000, longitude: CLLocationDegrees(tempIndLeg.arrival.coord?.lon ?? 0)/1000000)))"
@@ -431,18 +450,14 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 		cell.sideLineView.backgroundColor = sideColor
 		
 		return cell
-        
+		        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		
 		var cellsToReload: [IndexPath] = []
 		
-		if let c = tableView.cellForRow(at: indexPath) as? DetailCell {
-			print(indexPath, c.intermediateStops.count, c.walkImgView.isHidden)
-		}
-		
-		if let c = tableView.cellForRow(at: indexPath) as? DetailCell,
+		if let c = tableView.cellForRow(at: indexPath) as? BahnfinderDetailCell,
 		   c.intermediateStops.count > 0
 		{
 			// we've tapped on an "Expandable" row

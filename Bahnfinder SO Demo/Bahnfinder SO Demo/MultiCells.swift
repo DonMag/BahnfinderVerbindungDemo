@@ -10,7 +10,7 @@ import TripKit
 
 // MARK: Departure Cell
 //	this will always be the FIRST Row in the table
-class DepartureCell: UITableViewCell {
+class BahnfinderDepartureCell: UITableViewCell {
 	
 	@IBOutlet var sideLineView: UIView!
 	@IBOutlet var horzLineView: UIView!
@@ -26,7 +26,7 @@ class DepartureCell: UITableViewCell {
 
 // MARK: Arrival Cell
 //	this will always be the LAST Row in the table
-class ArrivalCell: UITableViewCell {
+class BahnfinderArrivalCell: UITableViewCell {
 	
 	@IBOutlet var sideLineView: UIView!
 	@IBOutlet var horzLineView: UIView!
@@ -42,7 +42,7 @@ class ArrivalCell: UITableViewCell {
 
 // MARK: Connection Cell
 //	this cell has "Top" and "Bottom" times and "bracket" line views
-class ConnectionCell: UITableViewCell {
+class BahnfinderConnectionCell: UITableViewCell {
 	
 	@IBOutlet var timeTopLabel: UILabel!
 	@IBOutlet var timeBottomLabel: UILabel!
@@ -66,7 +66,7 @@ class ConnectionCell: UITableViewCell {
 //	this cell has the "Intermediate Stops" table
 //	will only be visible if there are "Stops"
 //	will be shown/hidden for Expand / Collapse
-class DetailCell: UITableViewCell, UITableViewDataSource, UITableViewDelegate {
+class BahnfinderDetailCell: UITableViewCell, UITableViewDataSource, UITableViewDelegate {
 	
 	@IBOutlet var sideLineView: UIView!
 	@IBOutlet var lineNumberLabel: LineNumberLabel!
@@ -107,7 +107,7 @@ class DetailCell: UITableViewCell, UITableViewDataSource, UITableViewDelegate {
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: "stopCell", for: indexPath) as! DetailIntermediateStopCell
+		let cell = tableView.dequeueReusableCell(withIdentifier: "stopCell", for: indexPath) as! BahnfinderIntermediateStopCell
 		cell.stopLabel.text = intermediateStops[indexPath.row].location.name
 		if let time = intermediateStops[indexPath.row].departure?.time {
 			cell.timeLabel.text = timeFormatHHMM.string(from: time)
@@ -168,7 +168,7 @@ class DetailCell: UITableViewCell, UITableViewDataSource, UITableViewDelegate {
 }
 
 // MARK: cell for Intermediate Stops table view
-class DetailIntermediateStopCell: UITableViewCell {
+class BahnfinderIntermediateStopCell: UITableViewCell {
 	@IBOutlet var timeLabel: UILabel!
 	@IBOutlet var stopLabel: UILabel!
 	@IBOutlet var rightLabel: UILabel!
