@@ -7,13 +7,6 @@
 
 import UIKit
 
-class DetailIntermediateStopCell: UITableViewCell {
-	@IBOutlet var timeLabel: UILabel!
-	@IBOutlet var stopLabel: UILabel!
-	@IBOutlet var rightLabel: UILabel!
-
-}
-
 class detailVerbindungIntermediateStopTableViewCell: UITableViewCell {
 
     let timeLabel: UILabel = {

@@ -52,16 +52,8 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 
         Task { @MainActor in
             // This function is normally executed by the ViewController before:
-			var components = DateComponents()
-			components.hour = 12
-			components.minute = 22
-			components.day = 27
-			components.month = 2
-			components.year = 2023
-			let d = Calendar.current.date(from: components) ?? Date()
-			print(d, Date())
+			let d = Date()
 			
-			//            let (request, result) = await provider.queryTrips(from: Location(id: "A=1@O=Ratzeburg@X=10740635@Y=53698214@U=80@L=8004952@B=1@p=1677095209@"), via: nil, to: Location(id: "A=1@O=Kaiserstraße, Neubiberg@X=11666920@Y=48075399@u=120@U=80@L=622352@"), date: Date())
 			let (request, result) = await provider.queryTrips(from: Location(id: "A=1@O=Ratzeburg@X=10740635@Y=53698214@U=80@L=8004952@B=1@p=1677095209@"), via: nil, to: Location(id: "A=1@O=Kaiserstraße, Neubiberg@X=11666920@Y=48075399@u=120@U=80@L=622352@"), date: d)
 
             switch result {
@@ -321,10 +313,13 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 			cell.timeTopLabel.text = ""
 			cell.timeMiddleLabel.text = ""
 			cell.timeBottomLabel.text = ""
+			cell.timeSeperatorView.isHidden = true
 			
 			// we will show these if needed
 			cell.chevronImageView.isHidden = true
 			cell.intermediateTableView.isHidden = true
+			
+			cell.lineNumberLabel.text = ""
 			
 			if thisLeg[arrayIndex] is PublicLeg {
 				//Fahrzeug
@@ -367,7 +362,7 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 					cell.timeTopLabel.textColor = UIColor.systemRed
 					cell.timeTopLabel.isHidden = false
 					cell.timeTopLabel.text = "+ \(timeDifference.stringFromTimeIntervalOnlyNumber())"
-					//cell.timeSeperatorView.isHidden = false
+					cell.timeSeperatorView.isHidden = false
 					if cell.timeTopLabel.text?.contains("-") == true {
 						cell.timeTopLabel.text = cell.timeTopLabel.text?.replacingOccurrences(of: "+ ", with: "")
 						cell.timeTopLabel.text = cell.timeTopLabel.text?.replacingOccurrences(of: "-", with: "- ")
@@ -381,7 +376,7 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 					cell.timeBottomLabel.textColor = UIColor.systemRed
 					cell.timeBottomLabel.isHidden = false
 					cell.timeBottomLabel.text = "+ \(timeDifference.stringFromTimeIntervalOnlyNumber())"
-					//cell.timeSeperatorView.isHidden = false
+					cell.timeSeperatorView.isHidden = false
 					if cell.timeBottomLabel.text?.contains("-") == true {
 						cell.timeBottomLabel.text = cell.timeBottomLabel.text?.replacingOccurrences(of: "+ ", with: "")
 						cell.timeBottomLabel.text = cell.timeBottomLabel.text?.replacingOccurrences(of: "-", with: "- ")
@@ -394,7 +389,7 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 					cell.timeMiddleLabel.isHidden = false
 					cell.timeMiddleLabel.text = cell.timeTopLabel.text
 					cell.timeMiddleLabel.textColor = cell.timeTopLabel.textColor
-					//cell.timeSeperatorView.isHidden = true
+					cell.timeSeperatorView.isHidden = true
 				}
 				sideColor = UIColor(argb: tempPublicLeg.line.style.backgroundColor)
 				
@@ -419,17 +414,17 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 				print("IndividualLeg")
 				let tempIndLeg = thisLeg[arrayIndex] as! IndividualLeg
 				cell.destinationLabel.text = "Fußweg: \(tempIndLeg.departure.getDistanceText(CLLocation(latitude: CLLocationDegrees(tempIndLeg.arrival.coord?.lat ?? 0)/1000000, longitude: CLLocationDegrees(tempIndLeg.arrival.coord?.lon ?? 0)/1000000)))"
-				let config = UIImage.SymbolConfiguration(paletteColors: [.label, .lightGray])
-				let walkIconImgView = UIImageView(frame: CGRect(x: 96, y: 24, width: 42, height: 42))
-				walkIconImgView.contentMode = .scaleAspectFit
-				walkIconImgView.image = UIImage(systemName: "figure.walk.diamond")!.applyingSymbolConfiguration(config)
-				cell.addSubview(walkIconImgView)
-				walkIconImgView.isHidden = true
-				let imageAttachment = NSTextAttachment()
-				imageAttachment.image = UIImage(systemName: "figure.walk", withConfiguration: config)
-				let fullString = NSMutableAttributedString(string: "")
-				fullString.append(NSAttributedString(attachment: imageAttachment))
-				cell.lineNumberLabel.attributedText = fullString
+//				let config = UIImage.SymbolConfiguration(paletteColors: [.label, .lightGray])
+//				let walkIconImgView = UIImageView(frame: CGRect(x: 96, y: 24, width: 42, height: 42))
+//				walkIconImgView.contentMode = .scaleAspectFit
+//				walkIconImgView.image = UIImage(systemName: "figure.walk.diamond")!.applyingSymbolConfiguration(config)
+//				cell.addSubview(walkIconImgView)
+//				walkIconImgView.isHidden = true
+//				let imageAttachment = NSTextAttachment()
+//				imageAttachment.image = UIImage(systemName: "figure.walk", withConfiguration: config)
+//				let fullString = NSMutableAttributedString(string: "")
+//				fullString.append(NSAttributedString(attachment: imageAttachment))
+//				cell.lineNumberLabel.attributedText = fullString
 				sideColor = UIColor.lightGray
 			}
 			

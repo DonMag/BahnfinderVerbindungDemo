@@ -8,6 +8,8 @@
 import UIKit
 import TripKit
 
+// MARK: Departure Cell
+//	this will always be the FIRST Row in the table
 class DepartureCell: UITableViewCell {
 	
 	@IBOutlet var sideLineView: UIView!
@@ -15,9 +17,15 @@ class DepartureCell: UITableViewCell {
 	@IBOutlet var timeMiddleLabel: UILabel!
 	@IBOutlet var destinationLabel: UILabel!
 	@IBOutlet var devLabel: UILabel!
-	
+
+	override func awakeFromNib() {
+		super.awakeFromNib()
+		contentView.backgroundColor = .systemBackground
+	}
 }
 
+// MARK: Arrival Cell
+//	this will always be the LAST Row in the table
 class ArrivalCell: UITableViewCell {
 	
 	@IBOutlet var sideLineView: UIView!
@@ -26,8 +34,14 @@ class ArrivalCell: UITableViewCell {
 	@IBOutlet var destinationLabel: UILabel!
 	@IBOutlet var devLabel: UILabel!
 	
+	override func awakeFromNib() {
+		super.awakeFromNib()
+		contentView.backgroundColor = .systemBackground
+	}
 }
 
+// MARK: Connection Cell
+//	this cell has "Top" and "Bottom" times and "bracket" line views
 class ConnectionCell: UITableViewCell {
 	
 	@IBOutlet var timeTopLabel: UILabel!
@@ -42,15 +56,25 @@ class ConnectionCell: UITableViewCell {
 	@IBOutlet var destinationLabel: UILabel!
 	@IBOutlet var devLabel: UILabel!
 	
+	override func awakeFromNib() {
+		super.awakeFromNib()
+		contentView.backgroundColor = .systemBackground
+	}
 }
 
+// MARK: Detail Cell
+//	this cell has the "Intermediate Stops" table
+//	will only be visible if there are "Stops"
+//	will be shown/hidden for Expand / Collapse
 class DetailCell: UITableViewCell, UITableViewDataSource, UITableViewDelegate {
 	
 	@IBOutlet var sideLineView: UIView!
 	@IBOutlet var lineNumberLabel: LineNumberLabel!
+	@IBOutlet var walkImgView: UIImageView!
 	
 	@IBOutlet var timeTopLabel: UILabel!
 	@IBOutlet var timeMiddleLabel: UILabel!
+	@IBOutlet var timeSeperatorView: UIView!
 	@IBOutlet var timeBottomLabel: UILabel!
 	
 	@IBOutlet var destinationLabel: UILabel!
@@ -72,12 +96,15 @@ class DetailCell: UITableViewCell, UITableViewDataSource, UITableViewDelegate {
 		intermediateTableView.dataSource = self
 		intermediateTableView.delegate = self
 		intermediateTableView.rowHeight = 20
-		//intermediateTableView.register(detailVerbindungIntermediateStopTableViewCell.self, forCellReuseIdentifier: "detailVerbindungIntermediateStopTableViewCell")
-		
-	}
-	
-	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return 20
+
+//		let config = UIImage.SymbolConfiguration(paletteColors: [.label, .lightGray])
+		let config = UIImage.SymbolConfiguration(paletteColors: [.red, .green])
+		if let img = UIImage(systemName: "figure.walk")?.applyingSymbolConfiguration(config) {
+			walkImgView.image = img
+		}
+
+		contentView.backgroundColor = .systemBackground
+
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -92,9 +119,7 @@ class DetailCell: UITableViewCell, UITableViewDataSource, UITableViewDelegate {
 		} else {
 			cell.timeLabel.text = ""
 		}
-		//		let sideLineMainView = UIView(frame: CGRect(x: 0, y: 0, width: 6, height: 20))
-		//		sideLineMainView.backgroundColor = sideColor
-		//		cell.lineImageView.addSubview(sideLineMainView)
+
 		cell.rightLabel.isHidden = true
 		
 		if intermediateStops[indexPath.row].departure?.predictedTime == nil {
@@ -135,7 +160,6 @@ class DetailCell: UITableViewCell, UITableViewDataSource, UITableViewDelegate {
 					cell.rightLabel.isHidden = false
 					cell.rightLabel.attributedText = delayAttString
 					
-					
 				}
 			}
 		
@@ -146,5 +170,13 @@ class DetailCell: UITableViewCell, UITableViewDataSource, UITableViewDelegate {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
+}
+
+// MARK: cell for Intermediate Stops table view
+class DetailIntermediateStopCell: UITableViewCell {
+	@IBOutlet var timeLabel: UILabel!
+	@IBOutlet var stopLabel: UILabel!
+	@IBOutlet var rightLabel: UILabel!
+	
 }
 
