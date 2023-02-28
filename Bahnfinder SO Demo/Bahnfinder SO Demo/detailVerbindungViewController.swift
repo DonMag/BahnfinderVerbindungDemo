@@ -50,6 +50,8 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 		])
 		spinner.startAnimating()
 
+		mainTableView.separatorStyle = .none
+		
         Task { @MainActor in
             // This function is normally executed by the ViewController before:
 			let d = Date()
@@ -148,13 +150,17 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 		var sideTopColor = UIColor.clear
 		var sideBottomColor = UIColor.clear
 		
+		// for code readability...
+		//	instead of a lot of resultLegArray[selectedIndex][0]
 		let thisResultLeg = resultLegArray[selectedIndex]
 		let thisLeg = thisResultLeg[0]
 		let arrayIndex = indexPath.row / 2
 		
+		// MARK: even-number row
 		if indexPath.row % 2 == 0 {
+			
 			if indexPath.row == 0 {
-				// this is the First Row
+				// MARK: the First row
 				let cell = tableView.dequeueReusableCell(withIdentifier: "firstCell", for: indexPath) as! DepartureCell
 				
 				cell.timeMiddleLabel.text = ""
@@ -194,7 +200,7 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 			}
 			else
 			if arrayIndex == thisLeg.count {
-				// this is the Last row
+				// MARK: the Last row
 				let cell = tableView.dequeueReusableCell(withIdentifier: "lastCell", for: indexPath) as! ArrivalCell
 				
 				cell.timeMiddleLabel.text = ""
@@ -234,8 +240,7 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 			}
 			else
 			{
-				// this is a Connection row
-				
+				// MARK: the a "Connection" row
 				let cell = tableView.dequeueReusableCell(withIdentifier: "connectionCell", for: indexPath) as! ConnectionCell
 				
 				cell.timeTopLabel.text = ""
@@ -304,514 +309,167 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 				
 			}
 		}
-		else if 1 == 1
-		{
-			// odd-numbered row, so this is a Detail cell
+		
+		// MARK: odd-number row - so this is a Detail cell
+		let cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! DetailCell
+		
+		cell.timeTopLabel.text = ""
+		cell.timeMiddleLabel.text = ""
+		cell.timeBottomLabel.text = ""
+		cell.timeSeperatorView.isHidden = true
+		
+		// we will show these if needed
+		cell.chevronImageView.isHidden = true
+		cell.intermediateTableView.isHidden = true
+		
+		cell.lineNumberLabel.isHidden = true
+		cell.walkImgView.isHidden = true
+		
+		if thisLeg[arrayIndex] is PublicLeg {
+			//Fahrzeug
+			print("PublicLeg")
+			let tempPublicLeg = thisLeg[arrayIndex] as! PublicLeg
+			cell.lineNumberLabel.isHidden = false
+			cell.lineNumberLabel.text = tempPublicLeg.line.label ?? ""
+			cell.destinationLabel.text = tempPublicLeg.destination?.name
 			
-			let cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! DetailCell
-			
-			cell.timeTopLabel.text = ""
-			cell.timeMiddleLabel.text = ""
-			cell.timeBottomLabel.text = ""
-			cell.timeSeperatorView.isHidden = true
-			
-			// we will show these if needed
-			cell.chevronImageView.isHidden = true
-			cell.intermediateTableView.isHidden = true
-			
-			cell.lineNumberLabel.text = ""
-			
-			if thisLeg[arrayIndex] is PublicLeg {
-				//Fahrzeug
-				print("PublicLeg")
-				let tempPublicLeg = thisLeg[arrayIndex] as! PublicLeg
-				cell.lineNumberLabel.text = tempPublicLeg.line.label ?? ""
-				cell.destinationLabel.text = tempPublicLeg.destination?.name
-				
-				if tempPublicLeg.line.style.backgroundColor2 == nil || tempPublicLeg.line.style.backgroundColor2 == 0 {
-					cell.lineNumberLabel.backgroundColorC = tempPublicLeg.line.style.backgroundColor
-				} else {
-					cell.lineNumberLabel.backgroundColorC = UInt32(UIColor.clear.hexa)
-					//					let backgroundLineHalfHalf = LineHalfTriangleView(frame: cell.lineNumberLabel.frame)
-					//					backgroundLineHalfHalf.topColor = tempPublicLeg.line.style.backgroundColor
-					//					backgroundLineHalfHalf.bottomColor = tempPublicLeg.line.style.backgroundColor2
-					//					backgroundLineHalfHalf.borderColor = tempPublicLeg.line.style.borderColor
-					//					cell.contentView.addSubview(backgroundLineHalfHalf)
-					//					cell.contentView.sendSubviewToBack(backgroundLineHalfHalf)
-				}
-				cell.lineNumberLabel.shape = tempPublicLeg.line.style.shape
-				cell.lineNumberLabel.foregroundColor = tempPublicLeg.line.style.foregroundColor
-				cell.lineNumberLabel.borderColor = tempPublicLeg.line.style.borderColor
-				//				if tempPublicLeg.line.style.backgroundColor2 == nil || tempPublicLeg.line.style.backgroundColor2 == 0 {
-				//					cell.lineNumberLabel.backgroundColorC = tempPublicLeg.line.style.backgroundColor
-				//				} else {
-				//					cell.lineNumberLabel.backgroundColorC = UInt32(UIColor.clear.hexa)
-				////					let backgroundLineHalfHalf = LineHalfTriangleView(frame: cell.lineNumberLabel.frame)
-				////					backgroundLineHalfHalf.topColor = tempPublicLeg.line.style.backgroundColor
-				////					backgroundLineHalfHalf.bottomColor = tempPublicLeg.line.style.backgroundColor2
-				////					backgroundLineHalfHalf.borderColor = tempPublicLeg.line.style.borderColor
-				////					cell.contentView.addSubview(backgroundLineHalfHalf)
-				////					cell.contentView.sendSubviewToBack(backgroundLineHalfHalf)
-				//				}
-				//MARK: Info PublicLeg Time
-				if tempPublicLeg.departureTime == tempPublicLeg.plannedDepartureTime {
-					
-				} else {
-					let timeDifference = tempPublicLeg.plannedDepartureTime.distance(to: tempPublicLeg.departureTime )
-					cell.timeTopLabel.text = timeDifference.stringFromTimeIntervalWithText()
-					cell.timeTopLabel.textColor = UIColor.systemRed
-					cell.timeTopLabel.isHidden = false
-					cell.timeTopLabel.text = "+ \(timeDifference.stringFromTimeIntervalOnlyNumber())"
-					cell.timeSeperatorView.isHidden = false
-					if cell.timeTopLabel.text?.contains("-") == true {
-						cell.timeTopLabel.text = cell.timeTopLabel.text?.replacingOccurrences(of: "+ ", with: "")
-						cell.timeTopLabel.text = cell.timeTopLabel.text?.replacingOccurrences(of: "-", with: "- ")
-						cell.timeTopLabel.textColor = UIColor.systemBlue
-					}
-				}
-				if tempPublicLeg.arrivalTime == tempPublicLeg.plannedArrivalTime {
-				} else {
-					let timeDifference = tempPublicLeg.plannedArrivalTime.distance(to: tempPublicLeg.arrivalTime )
-					cell.timeBottomLabel.text = timeDifference.stringFromTimeIntervalWithText()
-					cell.timeBottomLabel.textColor = UIColor.systemRed
-					cell.timeBottomLabel.isHidden = false
-					cell.timeBottomLabel.text = "+ \(timeDifference.stringFromTimeIntervalOnlyNumber())"
-					cell.timeSeperatorView.isHidden = false
-					if cell.timeBottomLabel.text?.contains("-") == true {
-						cell.timeBottomLabel.text = cell.timeBottomLabel.text?.replacingOccurrences(of: "+ ", with: "")
-						cell.timeBottomLabel.text = cell.timeBottomLabel.text?.replacingOccurrences(of: "-", with: "- ")
-						cell.timeBottomLabel.textColor = UIColor.systemBlue
-					}
-				}
-				if cell.timeTopLabel.text == cell.timeBottomLabel.text {
-					cell.timeTopLabel.isHidden = true
-					cell.timeBottomLabel.isHidden = true
-					cell.timeMiddleLabel.isHidden = false
-					cell.timeMiddleLabel.text = cell.timeTopLabel.text
-					cell.timeMiddleLabel.textColor = cell.timeTopLabel.textColor
-					cell.timeSeperatorView.isHidden = true
-				}
-				sideColor = UIColor(argb: tempPublicLeg.line.style.backgroundColor)
-				
-				//Expandable Cell
-				cell.intermediateStops = tempPublicLeg.intermediateStops
-				
-				cell.sideColor = sideColor
-				
-				if tempPublicLeg.intermediateStops.count >= 0 {
-					cell.chevronImageView.isHidden = false
-					if cell.frame.height > 72 {
-						cell.chevronImageView.image = UIImage(systemName: "chevron.up")
-					} else {
-						cell.chevronImageView.image = UIImage(systemName: "chevron.down")
-					}
-				}
-				
-				cell.intermediateTableView.isHidden = indexPath.row != expandedRowIndex
+			// not clear what we're doing with this?
+			//	in any case, we do NOT want to be adding subviews to the cell here
+			if tempPublicLeg.line.style.backgroundColor2 == nil || tempPublicLeg.line.style.backgroundColor2 == 0 {
+				cell.lineNumberLabel.backgroundColorC = tempPublicLeg.line.style.backgroundColor
+			} else {
+				cell.lineNumberLabel.backgroundColorC = UInt32(UIColor.clear.hexa)
+				//					let backgroundLineHalfHalf = LineHalfTriangleView(frame: cell.lineNumberLabel.frame)
+				//					backgroundLineHalfHalf.topColor = tempPublicLeg.line.style.backgroundColor
+				//					backgroundLineHalfHalf.bottomColor = tempPublicLeg.line.style.backgroundColor2
+				//					backgroundLineHalfHalf.borderColor = tempPublicLeg.line.style.borderColor
+				//					cell.contentView.addSubview(backgroundLineHalfHalf)
+				//					cell.contentView.sendSubviewToBack(backgroundLineHalfHalf)
+			}
+			cell.lineNumberLabel.shape = tempPublicLeg.line.style.shape
+			cell.lineNumberLabel.foregroundColor = tempPublicLeg.line.style.foregroundColor
+			cell.lineNumberLabel.borderColor = tempPublicLeg.line.style.borderColor
+			//				if tempPublicLeg.line.style.backgroundColor2 == nil || tempPublicLeg.line.style.backgroundColor2 == 0 {
+			//					cell.lineNumberLabel.backgroundColorC = tempPublicLeg.line.style.backgroundColor
+			//				} else {
+			//					cell.lineNumberLabel.backgroundColorC = UInt32(UIColor.clear.hexa)
+			//					let backgroundLineHalfHalf = LineHalfTriangleView(frame: cell.lineNumberLabel.frame)
+			//					backgroundLineHalfHalf.topColor = tempPublicLeg.line.style.backgroundColor
+			//					backgroundLineHalfHalf.bottomColor = tempPublicLeg.line.style.backgroundColor2
+			//					backgroundLineHalfHalf.borderColor = tempPublicLeg.line.style.borderColor
+			//					cell.contentView.addSubview(backgroundLineHalfHalf)
+			//					cell.contentView.sendSubviewToBack(backgroundLineHalfHalf)
+			//				}
+			//MARK: Info PublicLeg Time
+			if tempPublicLeg.departureTime == tempPublicLeg.plannedDepartureTime {
 				
 			} else {
-				//Walk
-				print("IndividualLeg")
-				let tempIndLeg = thisLeg[arrayIndex] as! IndividualLeg
-				cell.destinationLabel.text = "Fußweg: \(tempIndLeg.departure.getDistanceText(CLLocation(latitude: CLLocationDegrees(tempIndLeg.arrival.coord?.lat ?? 0)/1000000, longitude: CLLocationDegrees(tempIndLeg.arrival.coord?.lon ?? 0)/1000000)))"
-//				let config = UIImage.SymbolConfiguration(paletteColors: [.label, .lightGray])
-//				let walkIconImgView = UIImageView(frame: CGRect(x: 96, y: 24, width: 42, height: 42))
-//				walkIconImgView.contentMode = .scaleAspectFit
-//				walkIconImgView.image = UIImage(systemName: "figure.walk.diamond")!.applyingSymbolConfiguration(config)
-//				cell.addSubview(walkIconImgView)
-//				walkIconImgView.isHidden = true
-//				let imageAttachment = NSTextAttachment()
-//				imageAttachment.image = UIImage(systemName: "figure.walk", withConfiguration: config)
-//				let fullString = NSMutableAttributedString(string: "")
-//				fullString.append(NSAttributedString(attachment: imageAttachment))
-//				cell.lineNumberLabel.attributedText = fullString
-				sideColor = UIColor.lightGray
+				let timeDifference = tempPublicLeg.plannedDepartureTime.distance(to: tempPublicLeg.departureTime )
+				cell.timeTopLabel.text = timeDifference.stringFromTimeIntervalWithText()
+				cell.timeTopLabel.textColor = UIColor.systemRed
+				cell.timeTopLabel.isHidden = false
+				cell.timeTopLabel.text = "+ \(timeDifference.stringFromTimeIntervalOnlyNumber())"
+				cell.timeSeperatorView.isHidden = false
+				if cell.timeTopLabel.text?.contains("-") == true {
+					cell.timeTopLabel.text = cell.timeTopLabel.text?.replacingOccurrences(of: "+ ", with: "")
+					cell.timeTopLabel.text = cell.timeTopLabel.text?.replacingOccurrences(of: "-", with: "- ")
+					cell.timeTopLabel.textColor = UIColor.systemBlue
+				}
+			}
+			if tempPublicLeg.arrivalTime == tempPublicLeg.plannedArrivalTime {
+			} else {
+				let timeDifference = tempPublicLeg.plannedArrivalTime.distance(to: tempPublicLeg.arrivalTime )
+				cell.timeBottomLabel.text = timeDifference.stringFromTimeIntervalWithText()
+				cell.timeBottomLabel.textColor = UIColor.systemRed
+				cell.timeBottomLabel.isHidden = false
+				cell.timeBottomLabel.text = "+ \(timeDifference.stringFromTimeIntervalOnlyNumber())"
+				cell.timeSeperatorView.isHidden = false
+				if cell.timeBottomLabel.text?.contains("-") == true {
+					cell.timeBottomLabel.text = cell.timeBottomLabel.text?.replacingOccurrences(of: "+ ", with: "")
+					cell.timeBottomLabel.text = cell.timeBottomLabel.text?.replacingOccurrences(of: "-", with: "- ")
+					cell.timeBottomLabel.textColor = UIColor.systemBlue
+				}
+			}
+			if cell.timeTopLabel.text == cell.timeBottomLabel.text {
+				cell.timeTopLabel.isHidden = true
+				cell.timeBottomLabel.isHidden = true
+				cell.timeMiddleLabel.isHidden = false
+				cell.timeMiddleLabel.text = cell.timeTopLabel.text
+				cell.timeMiddleLabel.textColor = cell.timeTopLabel.textColor
+				cell.timeSeperatorView.isHidden = true
+			}
+			sideColor = UIColor(argb: tempPublicLeg.line.style.backgroundColor)
+			
+			//Expandable Cell
+			cell.intermediateStops = tempPublicLeg.intermediateStops
+			
+			cell.sideColor = sideColor
+			
+			if tempPublicLeg.intermediateStops.count >= 0 {
+				cell.chevronImageView.isHidden = false
+				if cell.frame.height > 72 {
+					cell.chevronImageView.image = UIImage(systemName: "chevron.up")
+				} else {
+					cell.chevronImageView.image = UIImage(systemName: "chevron.down")
+				}
 			}
 			
-			cell.devLabel.isHidden = true
-			cell.sideLineView.backgroundColor = sideColor
+			cell.intermediateTableView.isHidden = indexPath.row != expandedRowIndex
 			
-			return cell
+		} else {
+			//Walk
+			print("IndividualLeg")
+			let tempIndLeg = thisLeg[arrayIndex] as! IndividualLeg
+			// cells are reused, so clear any intermediateStops
+			cell.intermediateStops = []
+			cell.walkImgView.isHidden = false
+			cell.destinationLabel.text = "Fußweg: \(tempIndLeg.departure.getDistanceText(CLLocation(latitude: CLLocationDegrees(tempIndLeg.arrival.coord?.lat ?? 0)/1000000, longitude: CLLocationDegrees(tempIndLeg.arrival.coord?.lon ?? 0)/1000000)))"
+			sideColor = UIColor.lightGray
 		}
-
-        let cell = tableView.dequeueReusableCell(withIdentifier: "detailVerbindungTableViewCell", for: indexPath) as! detailVerbindungTableViewCell
-            
-            for view in cell.contentView.subviews {
-                if let label = view as? LineHalfTriangleView {
-                    label.removeFromSuperview()
-                }
-            }
-            for view in cell.sideLineView.subviews {
-                cell.sideLineView.willRemoveSubview(view)
-            }
-            
-            let middleSeperator = UIView(frame: CGRect(x: 0, y: cell.contentView.frame.height / 2, width: cell.contentView.frame.width, height: 1))
-            middleSeperator.backgroundColor = UIColor.systemBlue
-            var sideLineType = "end"
-            cell.devLabel.text = "\(arrayIndex)"
-            cell.devLabel.isHidden = !UserDefaults.standard.bool(forKey: "devDetailVerbIndex")
-            cell.lineNumberLabel.text = ""
-            cell.lineNumberLabel.textColor = .label
-            cell.lineNumberLabel.backgroundColor = .clear
-            cell.intermediateStops.removeAll()
-            cell.destinationLabel.text = ""
-            cell.timeBottomLabel.text = ""
-            cell.timeMiddleLabel.text = ""
-            cell.timeTopLabel.text = ""
-            cell.constDestToNumber.constant = 8
-            cell.constDestToStrich.constant = 58
-            cell.constDestToNumber.isActive = true
-            cell.destinationLabel.font = UIFont.systemFont(ofSize: cell.destinationLabel.font.pointSize)
-            cell.timeTopLabel.textColor = UIColor.label
-            cell.timeMiddleLabel.textColor = UIColor.label
-            cell.timeBottomLabel.textColor = UIColor.label
-            cell.timeSeperatorView.isHidden = true
-            cell.chevronImageView.isHidden = true
-
-            if indexPath.row % 2 == 0 {
-                //Location cell
-                cell.contentView.backgroundColor = UIColor.systemBackground
-                cell.constDestToNumber.isActive = false
-                cell.constDestToStrich.constant = 8
-                cell.destinationLabel.font = UIFont.systemFont(ofSize: cell.destinationLabel.font.pointSize, weight: .semibold)
-                if arrayIndex == resultLegArray[selectedIndex][0].count {
-                    cell.destinationLabel.text = resultLegArray[selectedIndex][0].last?.arrival.name
-                } else {
-                    cell.destinationLabel.text = resultLegArray[selectedIndex][0][arrayIndex].departure.name
-                }
-                if arrayIndex == resultLegArray[selectedIndex][0].count {
-                    //Location cell
-                    //Show Time
-                    //Last cell
-                    sideLineType = "end"
-                    cell.timeTopLabel.isHidden = true
-                    cell.timeMiddleLabel.isHidden = false
-                    cell.timeBottomLabel.isHidden = true
-                    if resultLegArray[selectedIndex][0].last is PublicLeg {
-                        print("PublicLeg")
-                        var tempPublicLeg = resultLegArray[selectedIndex][0].last as! PublicLeg
-                        if tempPublicLeg.arrivalStop.predictedTime == nil {
-                            cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempPublicLeg.plannedArrivalTime)
-                            cell.timeMiddleLabel.textColor = UIColor.label
-                        } else if tempPublicLeg.arrivalStop.plannedTime == tempPublicLeg.arrivalStop.predictedTime {
-                            cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempPublicLeg.plannedArrivalTime)
-                            cell.timeMiddleLabel.textColor = UIColor.systemGreen
-                        } else {
-                            let timeDifference = tempPublicLeg.plannedArrivalTime.distance(to: tempPublicLeg.arrivalTime )
-                            cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempPublicLeg.arrivalTime)
-                            cell.timeMiddleLabel.textColor = UIColor.systemRed
-                            if timeDifference.stringFromTimeIntervalOnlyNumber().contains("-") == true {
-                                cell.timeMiddleLabel.textColor = UIColor.systemBlue
-                            }
-                        }
-                        
-                        sideColor = UIColor(argb: tempPublicLeg.line.style.backgroundColor)
-                    } else {
-                        print("IndividualLeg")
-                        var tempIndLeg = resultLegArray[selectedIndex][0].last as! IndividualLeg
-                        cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempIndLeg.arrivalTime)
-                        cell.timeMiddleLabel.textColor = UIColor.label
-                        sideColor = UIColor.lightGray
-                    }
-                } else {
-                    //Not last cell (here is first and every other cell)
-                    //Location cell
-                    //Show Time
-                    if arrayIndex == 0 {
-                        //first cell
-                        sideLineType = "start"
-                        cell.timeTopLabel.isHidden = true
-                        cell.timeMiddleLabel.isHidden = false
-                        cell.timeBottomLabel.isHidden = true
-                        if resultLegArray[selectedIndex][0][arrayIndex] is PublicLeg {
-                            print("PublicLeg")
-                            var tempPublicLeg = resultLegArray[selectedIndex][0][arrayIndex] as! PublicLeg
-                            if tempPublicLeg.departureStop.predictedTime == nil {
-                                cell.timeMiddleLabel.textColor = .label
-                                cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempPublicLeg.departureStop.plannedTime)
-                            } else if tempPublicLeg.departureStop.plannedTime == tempPublicLeg.departureStop.predictedTime {
-                                cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempPublicLeg.departureStop.predictedTime!)
-                                cell.timeMiddleLabel.textColor = UIColor.systemGreen
-                            } else {
-                                let timeDifference = tempPublicLeg.departureStop.plannedTime.distance(to: (tempPublicLeg.departureStop.predictedTime ?? tempPublicLeg.departureStop.plannedTime)!)
-                                cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempPublicLeg.departureStop.predictedTime!)
-                                cell.timeMiddleLabel.textColor = UIColor.systemRed
-                                if timeDifference.stringFromTimeIntervalOnlyNumber().contains("-") == true {
-                                    cell.timeMiddleLabel.textColor = UIColor.systemBlue
-                                }
-                            }
-                            sideColor = UIColor(argb: tempPublicLeg.line.style.backgroundColor)
-                        } else {
-                            print("IndividualLeg")
-                            var tempIndLeg = resultLegArray[selectedIndex][0][arrayIndex] as! IndividualLeg
-                            sideColor = UIColor.lightGray
-                            cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempIndLeg.departureTime)
-                            cell.timeMiddleLabel.textColor = UIColor.label
-                        }
-                    } else {//MARK: sideLineType Middle eg. every cell besiddes first and last
-                        sideLineType = "middle"
-                        cell.timeTopLabel.isHidden = false
-                        cell.timeMiddleLabel.isHidden = true
-                        cell.timeBottomLabel.isHidden = false
-                        
-                        if resultLegArray[selectedIndex][0][arrayIndex] is PublicLeg {
-                            print("PublicLeg")
-                            var tempPublicLeg = resultLegArray[selectedIndex][0][arrayIndex] as! PublicLeg
-
-                            if tempPublicLeg.departureStop.predictedTime == nil {
-                                cell.timeBottomLabel.textColor = .label
-                                cell.timeBottomLabel.text = timeFormatHHMM.string(from: tempPublicLeg.departureStop.plannedTime)
-                            } else if tempPublicLeg.departureStop.plannedTime == tempPublicLeg.departureStop.predictedTime {
-                                cell.timeBottomLabel.text = timeFormatHHMM.string(from: tempPublicLeg.departureStop.predictedTime!)
-                            cell.timeBottomLabel.textColor = UIColor.systemGreen
-                        } else {
-                            let timeDifference = tempPublicLeg.departureStop.plannedTime.distance(to: tempPublicLeg.departureStop.predictedTime! )
-                            cell.timeBottomLabel.text = timeFormatHHMM.string(from: tempPublicLeg.departureStop.predictedTime!)
-                            cell.timeBottomLabel.textColor = UIColor.systemRed
-                            if timeDifference.stringFromTimeIntervalOnlyNumber().contains("-") == true {
-                                cell.timeBottomLabel.textColor = UIColor.systemBlue
-                            }
-                        }
-                            sideBottomColor = UIColor(argb: tempPublicLeg.line.style.backgroundColor)
-                        } else {
-                            print("IndividualLeg")
-                            var tempIndLeg = resultLegArray[selectedIndex][0][arrayIndex] as! IndividualLeg
-                            sideBottomColor = UIColor.lightGray
-                            cell.timeBottomLabel.text = timeFormatHHMM.string(from: tempIndLeg.departureTime)
-                            cell.timeBottomLabel.textColor = UIColor.label
-                        }
-                        
-                        
-                        if resultLegArray[selectedIndex][0][arrayIndex-1] is PublicLeg { //Line before current
-                            print("PublicLeg")
-                            var tempPublicLeg = resultLegArray[selectedIndex][0][arrayIndex-1] as! PublicLeg
-                            sideTopColor = UIColor(argb: tempPublicLeg.line.style.backgroundColor)
-                            if tempPublicLeg.arrivalStop.predictedTime == nil {
-                                cell.timeTopLabel.textColor = .label
-                                cell.timeTopLabel.text = timeFormatHHMM.string(from: tempPublicLeg.arrivalStop.plannedTime)
-                            } else if tempPublicLeg.arrivalStop.plannedTime == tempPublicLeg.arrivalStop.predictedTime {
-                            cell.timeTopLabel.text = timeFormatHHMM.string(from: resultLegArray[selectedIndex][0][arrayIndex-1].arrivalTime)
-                            cell.timeTopLabel.textColor = UIColor.systemGreen
-                        } else {
-                            let timeDifference = resultLegArray[selectedIndex][0][arrayIndex-1].plannedArrivalTime.distance(to: resultLegArray[selectedIndex][0][arrayIndex-1].arrivalTime )
-                            cell.timeTopLabel.text = timeFormatHHMM.string(from: resultLegArray[selectedIndex][0][arrayIndex-1].arrivalTime)
-                            cell.timeTopLabel.textColor = UIColor.systemRed
-                            if timeDifference.stringFromTimeIntervalOnlyNumber().contains("-") == true {
-                                cell.timeTopLabel.textColor = UIColor.systemBlue
-                            }
-                        }
-                        } else {
-                            print("IndividualLeg")
-                            var tempIndLeg = resultLegArray[selectedIndex][0][arrayIndex-1] as! IndividualLeg
-                            sideTopColor = UIColor.lightGray
-                            cell.timeTopLabel.text = timeFormatHHMM.string(from: tempIndLeg.arrivalTime)
-                            cell.timeTopLabel.textColor = UIColor.label
-                        }
-                    }
-                }
-                
-                //Even index
-            } else {
-                //Info cell (Vehicle or Walk)
-                cell.timeTopLabel.isHidden = true
-                cell.timeMiddleLabel.isHidden = true
-                cell.timeBottomLabel.isHidden = true
-                sideLineType = "static"
-                cell.backgroundColor = UIColor.systemBackground
-                if resultLegArray[selectedIndex][0][arrayIndex] is PublicLeg {
-                    //Fahrzeug
-                    print("PublicLeg")
-                    var tempPublicLeg = resultLegArray[selectedIndex][0][arrayIndex] as! PublicLeg
-                    cell.lineNumberLabel.text = tempPublicLeg.line.label ?? ""
-                    cell.destinationLabel.text = tempPublicLeg.destination?.name
-                    if tempPublicLeg.line.style.backgroundColor2 == nil || tempPublicLeg.line.style.backgroundColor2 == 0 {
-                        
-                        cell.lineNumberLabel.backgroundColorC = tempPublicLeg.line.style.backgroundColor
-                    } else {
-                        cell.lineNumberLabel.backgroundColorC = UInt32(UIColor.clear.hexa)
-                        let backgroundLineHalfHalf = LineHalfTriangleView(frame: cell.lineNumberLabel.frame)
-                        backgroundLineHalfHalf.topColor = tempPublicLeg.line.style.backgroundColor
-                        backgroundLineHalfHalf.bottomColor = tempPublicLeg.line.style.backgroundColor2
-                        backgroundLineHalfHalf.borderColor = tempPublicLeg.line.style.borderColor
-                        cell.contentView.addSubview(backgroundLineHalfHalf)
-                        cell.contentView.sendSubviewToBack(backgroundLineHalfHalf)
-                    }
-                    cell.lineNumberLabel.shape = tempPublicLeg.line.style.shape
-                    cell.lineNumberLabel.foregroundColor = tempPublicLeg.line.style.foregroundColor
-                    cell.lineNumberLabel.borderColor = tempPublicLeg.line.style.borderColor
-                    if tempPublicLeg.line.style.backgroundColor2 == nil || tempPublicLeg.line.style.backgroundColor2 == 0 {
-                        cell.lineNumberLabel.backgroundColorC = tempPublicLeg.line.style.backgroundColor
-                    } else {
-                        cell.lineNumberLabel.backgroundColorC = UInt32(UIColor.clear.hexa)
-                        let backgroundLineHalfHalf = LineHalfTriangleView(frame: cell.lineNumberLabel.frame)
-                        backgroundLineHalfHalf.topColor = tempPublicLeg.line.style.backgroundColor
-                        backgroundLineHalfHalf.bottomColor = tempPublicLeg.line.style.backgroundColor2
-                        backgroundLineHalfHalf.borderColor = tempPublicLeg.line.style.borderColor
-                        cell.contentView.addSubview(backgroundLineHalfHalf)
-                        cell.contentView.sendSubviewToBack(backgroundLineHalfHalf)
-                    }
-                    //MARK: Info PublicLeg Time
-                    if tempPublicLeg.departureTime == tempPublicLeg.plannedDepartureTime {
-                        
-                    } else {
-                        let timeDifference = tempPublicLeg.plannedDepartureTime.distance(to: tempPublicLeg.departureTime )
-                        cell.timeTopLabel.text = timeDifference.stringFromTimeIntervalWithText()
-                        cell.timeTopLabel.textColor = UIColor.systemRed
-                        cell.timeTopLabel.isHidden = false
-                        cell.timeTopLabel.text = "+ \(timeDifference.stringFromTimeIntervalOnlyNumber())"
-                        cell.timeSeperatorView.isHidden = false
-                        if cell.timeTopLabel.text?.contains("-") == true {
-                            cell.timeTopLabel.text = cell.timeTopLabel.text?.replacingOccurrences(of: "+ ", with: "")
-                            cell.timeTopLabel.text = cell.timeTopLabel.text?.replacingOccurrences(of: "-", with: "- ")
-                            cell.timeTopLabel.textColor = UIColor.systemBlue
-                        }
-                    }
-                    if tempPublicLeg.arrivalTime == tempPublicLeg.plannedArrivalTime {
-                    } else {
-                        let timeDifference = tempPublicLeg.plannedArrivalTime.distance(to: tempPublicLeg.arrivalTime )
-                        cell.timeBottomLabel.text = timeDifference.stringFromTimeIntervalWithText()
-                        cell.timeBottomLabel.textColor = UIColor.systemRed
-                        cell.timeBottomLabel.isHidden = false
-                        cell.timeBottomLabel.text = "+ \(timeDifference.stringFromTimeIntervalOnlyNumber())"
-                        cell.timeSeperatorView.isHidden = false
-                        if cell.timeBottomLabel.text?.contains("-") == true {
-                            cell.timeBottomLabel.text = cell.timeBottomLabel.text?.replacingOccurrences(of: "+ ", with: "")
-                            cell.timeBottomLabel.text = cell.timeBottomLabel.text?.replacingOccurrences(of: "-", with: "- ")
-                            cell.timeBottomLabel.textColor = UIColor.systemBlue
-                        }
-                    }
-                    if cell.timeTopLabel.text == cell.timeBottomLabel.text {
-                        cell.timeTopLabel.isHidden = true
-                        cell.timeBottomLabel.isHidden = true
-                        cell.timeMiddleLabel.isHidden = false
-                        cell.timeMiddleLabel.text = cell.timeTopLabel.text
-                        cell.timeMiddleLabel.textColor = cell.timeTopLabel.textColor
-                        cell.timeSeperatorView.isHidden = true
-                    }
-                    sideColor = UIColor(argb: tempPublicLeg.line.style.backgroundColor)
-                    
-                    //Expandable Cell
-                    
-                    let intermediateTableView = detailVerbindungIntermediateStopsTableView(frame: CGRect(x: 0, y: cell.frame.height, width: cell.frame.width, height: .zero))
-                    intermediateTableView.translatesAutoresizingMaskIntoConstraints = false
-                    intermediateTableView.register(detailVerbindungIntermediateStopTableViewCell.self, forCellReuseIdentifier: "detailVerbindungIntermediateStopTableViewCell")
-                    intermediateTableView.dataSource = cell
-                    intermediateTableView.delegate = cell
-                    intermediateTableView.estimatedRowHeight = 20
-                    intermediateTableView.rowHeight = 20
-                    intermediateTableView.separatorInset.left = 96
-                    cell.contentView.addSubview(intermediateTableView)
-                    cell.intermediateStops = tempPublicLeg.intermediateStops
-                    cell.sideColor = sideColor
-                    if tempPublicLeg.intermediateStops.count == 0 {
-                        cell.chevronImageView.isHidden = true
-                    } else {
-                        cell.chevronImageView.isHidden = false
-                        if cell.frame.height > 72 {
-                            cell.chevronImageView.image = UIImage(systemName: "chevron.up")
-                        } else {
-                            cell.chevronImageView.image = UIImage(systemName: "chevron.down")
-                        }
-                    }
-                    
-                    let bottomConstraint = NSLayoutConstraint(item: intermediateTableView, attribute: .top, relatedBy: .equal, toItem: cell.destinationLabel, attribute: .bottom, multiplier: 1.0, constant: 0)
-                    let leadingConstraint = NSLayoutConstraint(item: intermediateTableView, attribute: .leading, relatedBy: .equal, toItem: cell.contentView, attribute: .leading, multiplier: 1.0, constant: 0)
-                    let trailingConstraint = NSLayoutConstraint(item: intermediateTableView, attribute: .trailing, relatedBy: .equal, toItem: cell.contentView, attribute: .trailing, multiplier: 1.0, constant: 0)
-                    let heightConstraint = NSLayoutConstraint(item: intermediateTableView, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 20)
-                    cell.contentView.addConstraints([bottomConstraint, leadingConstraint, trailingConstraint, heightConstraint])
-                    
-                    
-                } else {
-                    //Walk
-                    print("IndividualLeg")
-                    var tempIndLeg = resultLegArray[selectedIndex][0][arrayIndex] as! IndividualLeg
-                    cell.destinationLabel.text = "Fußweg: \(tempIndLeg.departure.getDistanceText(CLLocation(latitude: CLLocationDegrees(tempIndLeg.arrival.coord?.lat ?? 0)/1000000, longitude: CLLocationDegrees(tempIndLeg.arrival.coord?.lon ?? 0)/1000000)))"
-                    let config = UIImage.SymbolConfiguration(paletteColors: [.label, .lightGray])
-                    let walkIconImgView = UIImageView(frame: CGRect(x: 96, y: 24, width: 42, height: 42))
-                    walkIconImgView.contentMode = .scaleAspectFit
-                    walkIconImgView.image = UIImage(systemName: "figure.walk.diamond")!.applyingSymbolConfiguration(config)
-                    cell.addSubview(walkIconImgView)
-                    walkIconImgView.isHidden = true
-                    let imageAttachment = NSTextAttachment()
-                    imageAttachment.image = UIImage(systemName: "figure.walk", withConfiguration: config)
-                    let fullString = NSMutableAttributedString(string: "")
-                    fullString.append(NSAttributedString(attachment: imageAttachment))
-                    cell.lineNumberLabel.attributedText = fullString
-                    sideColor = UIColor.lightGray
-                }
-            }
-            
-            switch sideLineType {
-            case "middle": // ⎡ Comes from bottom to top
-                // Create the ⏐ UIView
-                let leftView = UIView()
-                leftView.frame = CGRect(x: 0, y: cell.sideLineView.frame.height / 2 + 7, width: 6, height: cell.sideLineView.frame.height / 2)
-                leftView.backgroundColor = sideBottomColor
-                // Create the ⎯ UIView
-                let rightView = UIView()
-                rightView.frame = CGRect(x: 0, y: cell.sideLineView.frame.height / 2 + 7, width: cell.sideLineView.frame.width, height: 6)
-                rightView.backgroundColor = sideBottomColor
-                // Add the subviews to the container view
-                cell.sideLineView.addSubview(leftView)
-                cell.sideLineView.addSubview(rightView)
-                // ⎣ Comes from top to bottom
-                // Create the ⏐ UIView
-                let topLeftView = UIView()
-                topLeftView.frame = CGRect(x: 0, y: 0, width: 6, height: cell.sideLineView.frame.height / 2 - 11)
-                topLeftView.backgroundColor = sideTopColor
-                // Create the ⎯ UIView
-                let topRightView = UIView()
-                topRightView.frame = CGRect(x: 0, y: cell.sideLineView.frame.height / 2 - 11, width: cell.sideLineView.frame.width, height: 6)
-                topRightView.backgroundColor = sideTopColor
-                // Add the subviews to the container view
-                cell.sideLineView.addSubview(topLeftView)
-                cell.sideLineView.addSubview(topRightView)
-            case "start": // ⎡
-                let sideLineMainView = UIView(frame: CGRect(x: 0, y: cell.sideLineView.frame.height / 2 - 3, width: 6, height: cell.sideLineView.frame.height))
-                sideLineMainView.backgroundColor = sideColor
-                cell.sideLineView.addSubview(sideLineMainView)
-                let sideLineSideView = UIView(frame: CGRect(x: 0, y: cell.sideLineView.frame.height / 2 - 3, width: cell.sideLineView.frame.width, height: 6))
-                sideLineSideView.backgroundColor = sideColor
-                cell.sideLineView.addSubview(sideLineSideView)
-            case "end": // ⎣
-                let sideLineMainView = UIView(frame: CGRect(x: 0, y: 0, width: 6, height: cell.sideLineView.frame.height / 2 + 3))
-                sideLineMainView.backgroundColor = sideColor
-                cell.sideLineView.addSubview(sideLineMainView)
-                let sideLineSideView = UIView(frame: CGRect(x: 0, y: cell.sideLineView.frame.height / 2 - 3, width: cell.sideLineView.frame.width, height: 6))
-                sideLineSideView.backgroundColor = sideColor
-                cell.sideLineView.addSubview(sideLineSideView)
-            case "static": // ⎥
-                let sideLineMainView = UIView(frame: CGRect(x: 0, y: 0, width: 6, height: cell.sideLineView.frame.height))
-                sideLineMainView.backgroundColor = sideColor
-                cell.sideLineView.addSubview(sideLineMainView)
-                
-            default: break
-            }
-        return cell
+		
+		cell.devLabel.isHidden = true
+		cell.sideLineView.backgroundColor = sideColor
+		
+		return cell
         
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row / 2 >= resultLegArray[selectedIndex][0].count {
-            return
-        }
-        
-        if resultLegArray[selectedIndex][0][indexPath.row / 2] is PublicLeg && indexPath.row % 2 != 0 {
-            if expandedRowIndex == indexPath.row {
-                expandedRowIndex = -1
-            } else {
-                expandedRowIndex = indexPath.row
-                
-            }
-            tableView.reloadRows(at: [indexPath], with: .automatic)
-        } else {
-            tableView.deselectRow(at: indexPath, animated: false)
-        }
-    }
-    
-    
-    
-    
+		
+		var cellsToReload: [IndexPath] = []
+		
+		if let c = tableView.cellForRow(at: indexPath) as? DetailCell {
+			print(indexPath, c.intermediateStops.count, c.walkImgView.isHidden)
+		}
+		
+		if let c = tableView.cellForRow(at: indexPath) as? DetailCell,
+		   c.intermediateStops.count > 0
+		{
+			// we've tapped on an "Expandable" row
+			//	so we know we will need to reload the tapped row
+			cellsToReload.append(indexPath)
+			
+			// if the row is already EXPANDED
+			if expandedRowIndex == indexPath.row {
+				expandedRowIndex = -1
+			} else {
+				// if a DIFFERENT row is Expanded, we need to reload it
+				//	to its Collapsed state
+				if expandedRowIndex > -1 {
+					cellsToReload.append(IndexPath(row: expandedRowIndex, section: 0))
+				}
+				// now set this row as the Expanded row
+				expandedRowIndex = indexPath.row
+			}
+			tableView.reloadRows(at: cellsToReload, with: .automatic)
+		}
+		else
+		{
+			// we've tapped on a "Non-Expandable" row
+			tableView.deselectRow(at: indexPath, animated: false)
+		}
+
+	}
     
 }
 extension detailVerbindungViewController: verbindungDetailProtocol {

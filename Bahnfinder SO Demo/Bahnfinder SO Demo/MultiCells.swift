@@ -96,12 +96,7 @@ class DetailCell: UITableViewCell, UITableViewDataSource, UITableViewDelegate {
 		intermediateTableView.dataSource = self
 		intermediateTableView.delegate = self
 		intermediateTableView.rowHeight = 20
-
-//		let config = UIImage.SymbolConfiguration(paletteColors: [.label, .lightGray])
-		let config = UIImage.SymbolConfiguration(paletteColors: [.red, .green])
-		if let img = UIImage(systemName: "figure.walk")?.applyingSymbolConfiguration(config) {
-			walkImgView.image = img
-		}
+		intermediateTableView.separatorInset.left = 96
 
 		contentView.backgroundColor = .systemBackground
 
