@@ -12,10 +12,13 @@ import CoreLocation
 
 class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-	@IBOutlet var mainTableView: UITableView!
-	@IBOutlet var durationLabel: UILabel!
+	var loadTripsFrom: LoadTripsFrom = .live
+	var savedTripsURL: URL?
 	
 	var spinner = UIActivityIndicatorView()
+	
+	@IBOutlet var mainTableView: UITableView!
+	@IBOutlet var durationLabel: UILabel!
 	
 	var resultTripsArray = [Trip]()
 	var resultLegArray = [[[Leg]]]()
@@ -28,9 +31,21 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 		self.dismiss(animated: true)
 	}
 	
+	@objc func saveTapped() {
+		// save the resultTripsArray to "saved.trips"
+		//	so we can re-load the same data
+		saveTrips(tripsArray: resultTripsArray)
+	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+		title = "DonMag Version"
+		
+		if navigationController != nil {
+			// add a rightBarButtonItem so we can Save the current resultTripsArray
+			navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveTapped))
+		}
 		
 		// add a UIActivityIndicatorView -- a "spinner"
 		spinner.style = .large
@@ -43,38 +58,20 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 		spinner.startAnimating()
 		
 		mainTableView.separatorStyle = .none
-		
+
 		Task { @MainActor in
-			// This function is normally executed by the ViewController before:
-			let d = Date()
 			
-			let (request, result) = await provider.queryTrips(from: Location(id: "A=1@O=Ratzeburg@X=10740635@Y=53698214@U=80@L=8004952@B=1@p=1677095209@"), via: nil, to: Location(id: "A=1@O=Kaiserstraße, Neubiberg@X=11666920@Y=48075399@u=120@U=80@L=622352@"), date: d)
-			
-			switch result {
-			case .success(let context, let from, let via, let to, let trips, let messages):
-				for (index, trip) in trips.enumerated() {
+			if loadTripsFrom == .saved,
+			   let url = savedTripsURL,
+			   let tmpTrips = Bahnfinder_SO_Demo.loadTripsFrom(url: url)
+			{
+				for (index, trip) in tmpTrips.enumerated() {
 					resultTripsArray.append(trip)
 					refreshContext = trip.refreshContext!
 					var tempLeg = [[Leg]]()
 					tempLeg.append(trip.legs)
 					resultLegArray.append(tempLeg)
 				}
-				
-				let fn: String = "24B1C567-451C-4109-9175-2C6986A98C4D"
-				if let tmpTrips = loadFrom(fn) as? [Trip] {
-					resultTripsArray = []
-					resultLegArray = []
-					for (index, trip) in tmpTrips.enumerated() {
-						resultTripsArray.append(trip)
-						refreshContext = trip.refreshContext!
-						var tempLeg = [[Leg]]()
-						tempLeg.append(trip.legs)
-						resultLegArray.append(tempLeg)
-					}
-				}
-				//convertAndSaveInDDPath(array: resultTripsArray)
-				
-				let currentTime = d //Date()
 				let waittimeDifference = resultTripsArray[selectedIndex].departureTime.distance(to: resultTripsArray[selectedIndex].arrivalTime)
 				if waittimeDifference > 60*60 {
 					durationLabel.text = "Dauer: \(waittimeDifference.stringFromTimeIntervalWithText())"
@@ -82,19 +79,45 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 					durationLabel.text = "Dauer: \(waittimeDifference.stringFromTimeIntervalWithText())"
 				}
 				
-				//Dont work because TripKit See: https://github.com/alexander-albers/tripkit/issues/13
-				//        refreshControl.attributedTitle = NSAttributedString(string: "Aktualisieren...")
-				//        refreshControl.addTarget(self, action: #selector(self.refresh), for: .valueChanged)
-				//        mainTableView.addSubview(refreshControl)
-				
 				spinner.stopAnimating()
 				mainTableView.reloadData()
+			}
+			else
+			{
+				// This function is normally executed by the ViewController before:
+				let d = Date()
 				
-			default: break
+				let (request, result) = await provider.queryTrips(from: Location(id: "A=1@O=Ratzeburg@X=10740635@Y=53698214@U=80@L=8004952@B=1@p=1677095209@"), via: nil, to: Location(id: "A=1@O=Kaiserstraße, Neubiberg@X=11666920@Y=48075399@u=120@U=80@L=622352@"), date: d)
+				
+				switch result {
+				case .success(let context, let from, let via, let to, let trips, let messages):
+					for (index, trip) in trips.enumerated() {
+						resultTripsArray.append(trip)
+						refreshContext = trip.refreshContext!
+						var tempLeg = [[Leg]]()
+						tempLeg.append(trip.legs)
+						resultLegArray.append(tempLeg)
+					}
+					
+					let waittimeDifference = resultTripsArray[selectedIndex].departureTime.distance(to: resultTripsArray[selectedIndex].arrivalTime)
+					if waittimeDifference > 60*60 {
+						durationLabel.text = "Dauer: \(waittimeDifference.stringFromTimeIntervalWithText())"
+					} else {
+						durationLabel.text = "Dauer: \(waittimeDifference.stringFromTimeIntervalWithText())"
+					}
+					
+					//Dont work because TripKit See: https://github.com/alexander-albers/tripkit/issues/13
+					//        refreshControl.attributedTitle = NSAttributedString(string: "Aktualisieren...")
+					//        refreshControl.addTarget(self, action: #selector(self.refresh), for: .valueChanged)
+					//        mainTableView.addSubview(refreshControl)
+					
+					spinner.stopAnimating()
+					mainTableView.reloadData()
+					
+				default: break
+				}
 			}
 		}
-		
-		
 		
 	}
 	
@@ -185,7 +208,7 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 			cell.timeMiddleLabel.text = ""
 			
 			if thisLeg[arrayIndex] is PublicLeg {
-				print("PublicLeg")
+				//print("PublicLeg")
 				
 				let tempPublicLeg = thisLeg[arrayIndex] as! PublicLeg
 				if tempPublicLeg.departureStop.predictedTime == nil {
@@ -204,7 +227,7 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 				}
 				sideColor = UIColor(argb: tempPublicLeg.line.style.backgroundColor)
 			} else {
-				print("IndividualLeg")
+				//print("IndividualLeg")
 				let tempIndLeg = thisLeg[arrayIndex] as! IndividualLeg
 				sideColor = UIColor.lightGray
 				cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempIndLeg.departureTime)
@@ -227,7 +250,7 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 			cell.timeMiddleLabel.text = ""
 			
 			if thisLeg.last is PublicLeg {
-				print("PublicLeg")
+				//print("PublicLeg")
 				let tempPublicLeg = thisLeg.last as! PublicLeg
 				if tempPublicLeg.arrivalStop.predictedTime == nil {
 					cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempPublicLeg.plannedArrivalTime)
@@ -246,7 +269,7 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 				
 				sideColor = UIColor(argb: tempPublicLeg.line.style.backgroundColor)
 			} else {
-				print("IndividualLeg")
+				//print("IndividualLeg")
 				let tempIndLeg = thisLeg.last as! IndividualLeg
 				cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempIndLeg.arrivalTime)
 				cell.timeMiddleLabel.textColor = UIColor.label
@@ -270,7 +293,7 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 			cell.timeBottomLabel.text = ""
 			
 			if thisLeg[arrayIndex] is PublicLeg {
-				print("PublicLeg")
+				//print("PublicLeg")
 				let tempPublicLeg = thisLeg[arrayIndex] as! PublicLeg
 				
 				if tempPublicLeg.departureStop.predictedTime == nil {
@@ -289,7 +312,7 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 				}
 				sideBottomColor = UIColor(argb: tempPublicLeg.line.style.backgroundColor)
 			} else {
-				print("IndividualLeg")
+				//print("IndividualLeg")
 				let tempIndLeg = thisLeg[arrayIndex] as! IndividualLeg
 				sideBottomColor = UIColor.lightGray
 				cell.timeBottomLabel.text = timeFormatHHMM.string(from: tempIndLeg.departureTime)
@@ -297,7 +320,7 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 			}
 			
 			if thisLeg[arrayIndex-1] is PublicLeg { //Line before current
-				print("PublicLeg")
+				//print("PublicLeg")
 				let tempPublicLeg = thisLeg[arrayIndex-1] as! PublicLeg
 				sideTopColor = UIColor(argb: tempPublicLeg.line.style.backgroundColor)
 				if tempPublicLeg.arrivalStop.predictedTime == nil {
@@ -315,7 +338,7 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 					}
 				}
 			} else {
-				print("IndividualLeg")
+				//print("IndividualLeg")
 				let tempIndLeg = thisLeg[arrayIndex-1] as! IndividualLeg
 				sideTopColor = UIColor.lightGray
 				cell.timeTopLabel.text = timeFormatHHMM.string(from: tempIndLeg.arrivalTime)
@@ -350,7 +373,7 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 		
 		if thisLeg[arrayIndex] is PublicLeg {
 			//Fahrzeug
-			print("PublicLeg")
+			//print("PublicLeg")
 			let tempPublicLeg = thisLeg[arrayIndex] as! PublicLeg
 			cell.lineNumberLabel.isHidden = false
 			cell.lineNumberLabel.text = tempPublicLeg.line.label ?? ""
@@ -443,7 +466,7 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 			
 		} else {
 			//Walk
-			print("IndividualLeg")
+			//print("IndividualLeg")
 			let tempIndLeg = thisLeg[arrayIndex] as! IndividualLeg
 			// cells are reused, so clear any intermediateStops that may have been set previously
 			cell.intermediateStops = []

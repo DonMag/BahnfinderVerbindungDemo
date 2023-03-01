@@ -13,20 +13,62 @@ func getDocumentsDirectory() -> URL {
 	return paths[0]
 }
 
-func loadFrom(_ fileName: String) -> [Trip]? {
-	
-	var trips: [Trip]!
-	
-	let fullPath = getDocumentsDirectory().appendingPathComponent(fileName)
+func saveTrips(tripsArray: [Trip]) {
+		
+	let fullPath = getDocumentsDirectory().appendingPathComponent("saved.trips")
 	
 	do {
-		let data = try Data(contentsOf: fullPath)
+		let data = try NSKeyedArchiver.archivedData(withRootObject: tripsArray, requiringSecureCoding: false)
+		try data.write(to: fullPath)
+		print("saved:", fullPath)
+	} catch {
+		print("Couldn't write file")
+	}
+	
+}
+
+func loadTripsFrom(url: URL) -> [Trip]? {
+
+	var trips: [Trip]!
+	
+	do {
+		let data = try Data(contentsOf: url)
 		if let loadedArray = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [Trip] {
 			trips = loadedArray
 		}
 	} catch {
 		print("Couldn't read file.")
 	}
+
+	return trips
+	
+}
+
+func loadFrom(_ fileName: String) -> [Trip]? {
+	
+	var trips: [Trip]!
+	
+	if let urlPath = Bundle.main.url(forResource: fileName, withExtension: "trips") {
+		do {
+			let data = try Data(contentsOf: urlPath)
+			if let loadedArray = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [Trip] {
+				trips = loadedArray
+			}
+		} catch {
+			print("Couldn't read file.")
+		}
+	}
+	
+//	let fullPath = getDocumentsDirectory().appendingPathComponent(fileName)
+//
+//	do {
+//		let data = try Data(contentsOf: fullPath)
+//		if let loadedArray = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [Trip] {
+//			trips = loadedArray
+//		}
+//	} catch {
+//		print("Couldn't read file.")
+//	}
 	
 	return trips
 }
