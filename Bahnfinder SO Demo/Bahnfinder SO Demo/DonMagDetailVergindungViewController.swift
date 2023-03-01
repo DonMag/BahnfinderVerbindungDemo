@@ -359,9 +359,19 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 		// (it was not a .departure, .arrival or .connection row)
 		let cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! BahnfinderDetailCell
 		
-		cell.timeTopLabel.text = ""
-		cell.timeMiddleLabel.text = ""
-		cell.timeBottomLabel.text = ""
+		// dev only
+		//cell.timeTopLabel.backgroundColor = .cyan
+		//cell.timeMiddleLabel.backgroundColor = .yellow
+		//cell.timeBottomLabel.backgroundColor = .green
+
+		cell.timeTopLabel.isHidden = false
+		cell.timeMiddleLabel.isHidden = true
+		cell.timeBottomLabel.isHidden = false
+		
+		cell.timeTopLabel.text = " "
+		cell.timeMiddleLabel.text = " "
+		cell.timeBottomLabel.text = " "
+		
 		cell.timeSeperatorView.isHidden = true
 		
 		// we will show these if needed
@@ -415,7 +425,7 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 				let timeDifference = tempPublicLeg.plannedDepartureTime.distance(to: tempPublicLeg.departureTime )
 				cell.timeTopLabel.text = timeDifference.stringFromTimeIntervalWithText()
 				cell.timeTopLabel.textColor = UIColor.systemRed
-				cell.timeTopLabel.isHidden = false
+				//cell.timeTopLabel.isHidden = false
 				cell.timeTopLabel.text = "+ \(timeDifference.stringFromTimeIntervalOnlyNumber())"
 				cell.timeSeperatorView.isHidden = false
 				if cell.timeTopLabel.text?.contains("-") == true {
@@ -429,7 +439,7 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 				let timeDifference = tempPublicLeg.plannedArrivalTime.distance(to: tempPublicLeg.arrivalTime )
 				cell.timeBottomLabel.text = timeDifference.stringFromTimeIntervalWithText()
 				cell.timeBottomLabel.textColor = UIColor.systemRed
-				cell.timeBottomLabel.isHidden = false
+				//cell.timeBottomLabel.isHidden = false
 				cell.timeBottomLabel.text = "+ \(timeDifference.stringFromTimeIntervalOnlyNumber())"
 				cell.timeSeperatorView.isHidden = false
 				if cell.timeBottomLabel.text?.contains("-") == true {
