@@ -68,6 +68,20 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
                     resultLegArray.append(tempLeg)
                 }
                 
+				let fn: String = "24B1C567-451C-4109-9175-2C6986A98C4D"
+				if let tmpTrips = loadFrom(fn) as? [Trip] {
+					resultTripsArray = []
+					resultLegArray = []
+					for (index, trip) in tmpTrips.enumerated() {
+						resultTripsArray.append(trip)
+						refreshContext = trip.refreshContext!
+						var tempLeg = [[Leg]]()
+						tempLeg.append(trip.legs)
+						resultLegArray.append(tempLeg)
+					}
+				}
+				//convertAndSaveInDDPath(array: resultTripsArray)
+				
                 let currentTime = d //Date()
                 let waittimeDifference = resultTripsArray[selectedIndex].departureTime.distance(to: resultTripsArray[selectedIndex].arrivalTime)
                 if waittimeDifference > 60*60 {

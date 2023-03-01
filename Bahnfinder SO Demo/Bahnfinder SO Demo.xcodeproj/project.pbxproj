@@ -26,6 +26,7 @@
 		5794448529AC1FB300A1DF09 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5794448429AC1FB300A1DF09 /* Extensions.swift */; };
 		5794448729AC1FB600A1DF09 /* Public Definitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5794448629AC1FB600A1DF09 /* Public Definitions.swift */; };
 		FCC55F1929AD547E00277B43 /* MultiCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC55F1829AD547E00277B43 /* MultiCells.swift */; };
+		FCC55F1B29AF9ECC00277B43 /* DevFuncs.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC55F1A29AF9ECC00277B43 /* DevFuncs.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		5794448429AC1FB300A1DF09 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		5794448629AC1FB600A1DF09 /* Public Definitions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Public Definitions.swift"; sourceTree = "<group>"; };
 		FCC55F1829AD547E00277B43 /* MultiCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiCells.swift; sourceTree = "<group>"; };
+		FCC55F1A29AF9ECC00277B43 /* DevFuncs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevFuncs.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 				5794448029AC1F7300A1DF09 /* LineHalfTriangleView.swift */,
 				5794448129AC1F7300A1DF09 /* LineNumberLabel.swift */,
 				FCC55F1829AD547E00277B43 /* MultiCells.swift */,
+				FCC55F1A29AF9ECC00277B43 /* DevFuncs.swift */,
 			);
 			path = "Bahnfinder SO Demo";
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 				5794447B29AC1F3500A1DF09 /* detailVerbindungIntermediateStopTableViewCell.swift in Sources */,
 				5794448529AC1FB300A1DF09 /* Extensions.swift in Sources */,
 				5794448329AC1F7300A1DF09 /* LineNumberLabel.swift in Sources */,
+				FCC55F1B29AF9ECC00277B43 /* DevFuncs.swift in Sources */,
 				5794447829AC1F3500A1DF09 /* detailVerbindungViewController.swift in Sources */,
 				5794444429AC1F0500A1DF09 /* AppDelegate.swift in Sources */,
 				FCC55F1929AD547E00277B43 /* MultiCells.swift in Sources */,
