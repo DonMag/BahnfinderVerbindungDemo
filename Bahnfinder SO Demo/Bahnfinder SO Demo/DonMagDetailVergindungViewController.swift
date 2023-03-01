@@ -1,36 +1,36 @@
 //
-//  detailVerbindungViewController.swift
-//  MVG App
+//  DonMagDetailVergindungViewController.swift
+//  Bahnfinder SO Demo
 //
-//  Created by Victor Lobe on 19.01.23.
+//  Created by Don Mag on 3/1/23.
 //
 
 import UIKit
+
 import TripKit
 import CoreLocation
 
-class detailVerbindungViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
-    
-    @IBOutlet var mainTableView: UITableView!
-    @IBOutlet var durationLabel: UILabel!
-    
+class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+
+	@IBOutlet var mainTableView: UITableView!
+	@IBOutlet var durationLabel: UILabel!
+	
 	var spinner = UIActivityIndicatorView()
 	
-    var resultTripsArray = [Trip]()
-    var resultLegArray = [[[Leg]]]()
-    var selectedIndex = 0
-    let refreshControl = UIRefreshControl()
-    var provider: NetworkProvider = currentProvider()
-    var refreshContext = RefreshTripContext()
-    
-    @IBAction func closeBtn(_ sender: Any) {
-        self.dismiss(animated: true)
-    }
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	var resultTripsArray = [Trip]()
+	var resultLegArray = [[[Leg]]]()
+	var selectedIndex = 0
+	let refreshControl = UIRefreshControl()
+	var provider: NetworkProvider = currentProvider()
+	var refreshContext = RefreshTripContext()
+	
+	@IBAction func closeBtn(_ sender: Any) {
+		self.dismiss(animated: true)
+	}
+	
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
 		
 		// add a UIActivityIndicatorView -- a "spinner"
 		spinner.style = .large
@@ -41,25 +41,25 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 			spinner.topAnchor.constraint(equalTo: mainTableView.topAnchor, constant: 30.0),
 		])
 		spinner.startAnimating()
-
+		
 		mainTableView.separatorStyle = .none
 		
-        Task { @MainActor in
-            // This function is normally executed by the ViewController before:
+		Task { @MainActor in
+			// This function is normally executed by the ViewController before:
 			let d = Date()
 			
 			let (request, result) = await provider.queryTrips(from: Location(id: "A=1@O=Ratzeburg@X=10740635@Y=53698214@U=80@L=8004952@B=1@p=1677095209@"), via: nil, to: Location(id: "A=1@O=Kaiserstraße, Neubiberg@X=11666920@Y=48075399@u=120@U=80@L=622352@"), date: d)
-
-            switch result {
-            case .success(let context, let from, let via, let to, let trips, let messages):
-                for (index, trip) in trips.enumerated() {
-                    resultTripsArray.append(trip)
-                    refreshContext = trip.refreshContext!
-                    var tempLeg = [[Leg]]()
-                    tempLeg.append(trip.legs)
-                    resultLegArray.append(tempLeg)
-                }
-                
+			
+			switch result {
+			case .success(let context, let from, let via, let to, let trips, let messages):
+				for (index, trip) in trips.enumerated() {
+					resultTripsArray.append(trip)
+					refreshContext = trip.refreshContext!
+					var tempLeg = [[Leg]]()
+					tempLeg.append(trip.legs)
+					resultLegArray.append(tempLeg)
+				}
+				
 				let fn: String = "24B1C567-451C-4109-9175-2C6986A98C4D"
 				if let tmpTrips = loadFrom(fn) as? [Trip] {
 					resultTripsArray = []
@@ -74,85 +74,85 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 				}
 				//convertAndSaveInDDPath(array: resultTripsArray)
 				
-                let currentTime = d //Date()
-                let waittimeDifference = resultTripsArray[selectedIndex].departureTime.distance(to: resultTripsArray[selectedIndex].arrivalTime)
-                if waittimeDifference > 60*60 {
-                    durationLabel.text = "Dauer: \(waittimeDifference.stringFromTimeIntervalWithText())"
-                } else {
-                    durationLabel.text = "Dauer: \(waittimeDifference.stringFromTimeIntervalWithText())"
-                }
-                
-                //Dont work because TripKit See: https://github.com/alexander-albers/tripkit/issues/13
-                //        refreshControl.attributedTitle = NSAttributedString(string: "Aktualisieren...")
-                //        refreshControl.addTarget(self, action: #selector(self.refresh), for: .valueChanged)
-                //        mainTableView.addSubview(refreshControl)
-                
+				let currentTime = d //Date()
+				let waittimeDifference = resultTripsArray[selectedIndex].departureTime.distance(to: resultTripsArray[selectedIndex].arrivalTime)
+				if waittimeDifference > 60*60 {
+					durationLabel.text = "Dauer: \(waittimeDifference.stringFromTimeIntervalWithText())"
+				} else {
+					durationLabel.text = "Dauer: \(waittimeDifference.stringFromTimeIntervalWithText())"
+				}
+				
+				//Dont work because TripKit See: https://github.com/alexander-albers/tripkit/issues/13
+				//        refreshControl.attributedTitle = NSAttributedString(string: "Aktualisieren...")
+				//        refreshControl.addTarget(self, action: #selector(self.refresh), for: .valueChanged)
+				//        mainTableView.addSubview(refreshControl)
+				
 				spinner.stopAnimating()
-                mainTableView.reloadData()
-                
-            default: break
-            }
-        }
-        
-
-        
-    }
-    
-    
-    @objc func refresh() {
-        let tempTripsArray = resultTripsArray
-        //DONT Work because TripKit See: https://github.com/alexander-albers/tripkit/issues/13
-        Task { @MainActor in
-            let (request, result) = await provider.refreshTrip(context: refreshContext)
-            switch result {
-            case .success(let context, let from, let via, let to, let trips, let messages):
-                resultTripsArray.removeAll()
-                resultLegArray.removeAll()
-                mainTableView.reloadData()
-                DispatchQueue.main.async {
-                    self.resultTripsArray = trips
-                    self.mainTableView.reloadData()
-                    
-                    for i in 0..<trips.count {
-                        var tempLeg = [[Leg]]()
-                        tempLeg.append(self.resultTripsArray[i].legs)
-                        self.resultLegArray.append(tempLeg)
-                    }
-                    
-                    
-                }
-            default:
-                print("error reloading context")
-            }
-            refreshControl.endRefreshing()
-        }
-    }
-    
-    
-    func generateArray() {
-        
-    }
-    var expandedRowIndex = -1
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == expandedRowIndex {
-            let tempPublicLeg = resultLegArray[selectedIndex][0][indexPath.row / 2] as! PublicLeg
-            return CGFloat(71 + 20*tempPublicLeg.intermediateStops.count) //Expanded
-        }
-        return 71 //Not expanded
-    }
-    
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard selectedIndex < resultLegArray.count else { return 0 }
-        return resultLegArray[selectedIndex][0].count * 2 + 1
-    }
-    
+				mainTableView.reloadData()
+				
+			default: break
+			}
+		}
+		
+		
+		
+	}
+	
+	
+	@objc func refresh() {
+		let tempTripsArray = resultTripsArray
+		//DONT Work because TripKit See: https://github.com/alexander-albers/tripkit/issues/13
+		Task { @MainActor in
+			let (request, result) = await provider.refreshTrip(context: refreshContext)
+			switch result {
+			case .success(let context, let from, let via, let to, let trips, let messages):
+				resultTripsArray.removeAll()
+				resultLegArray.removeAll()
+				mainTableView.reloadData()
+				DispatchQueue.main.async {
+					self.resultTripsArray = trips
+					self.mainTableView.reloadData()
+					
+					for i in 0..<trips.count {
+						var tempLeg = [[Leg]]()
+						tempLeg.append(self.resultTripsArray[i].legs)
+						self.resultLegArray.append(tempLeg)
+					}
+					
+					
+				}
+			default:
+				print("error reloading context")
+			}
+			refreshControl.endRefreshing()
+		}
+	}
+	
+	
+	func generateArray() {
+		
+	}
+	var expandedRowIndex = -1
+	
+	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+		if indexPath.row == expandedRowIndex {
+			let tempPublicLeg = resultLegArray[selectedIndex][0][indexPath.row / 2] as! PublicLeg
+			return CGFloat(71 + 20*tempPublicLeg.intermediateStops.count) //Expanded
+		}
+		return 71 //Not expanded
+	}
+	
+	
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		guard selectedIndex < resultLegArray.count else { return 0 }
+		return resultLegArray[selectedIndex][0].count * 2 + 1
+	}
+	
 	enum RowType: Int {
 		case departure, arrival, connection, detail
 	}
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+	
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
 		var sideColor = UIColor.clear
 		var sideTopColor = UIColor.clear
@@ -163,7 +163,7 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 		let thisResultLeg = resultLegArray[selectedIndex]
 		let thisLeg = thisResultLeg[0]
 		let arrayIndex = indexPath.row / 2
-
+		
 		var rowType: RowType = .detail
 		
 		// let's first figure out which type of row we're on
@@ -216,11 +216,11 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 			cell.horzLineView.backgroundColor = sideColor
 			cell.destinationLabel.text = thisLeg[arrayIndex].departure.name
 			return cell
-
+			
 		}
 		
 		if rowType == .arrival {
-
+			
 			// MARK: the Last row
 			let cell = tableView.dequeueReusableCell(withIdentifier: "arrivalCell", for: indexPath) as! BahnfinderArrivalCell
 			
@@ -258,7 +258,7 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 			cell.horzLineView.backgroundColor = sideColor
 			cell.destinationLabel.text = thisLeg.last?.arrival.name
 			return cell
-
+			
 		}
 		
 		if rowType == .connection {
@@ -456,10 +456,10 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 		cell.sideLineView.backgroundColor = sideColor
 		
 		return cell
-		        
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		
+	}
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		
 		var cellsToReload: [IndexPath] = []
 		
@@ -489,11 +489,11 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 			// we've tapped on a "Non-Expandable" row
 			tableView.deselectRow(at: indexPath, animated: false)
 		}
-
+		
 	}
-    
+	
 }
-extension detailVerbindungViewController: verbindungDetailProtocol {
+extension DonMagDetailVergindungViewController: verbindungDetailProtocol {
 	var protocolRefreshContext: RefreshTripContext? {
 		set {
 			print("SET protocolRefreshContext")

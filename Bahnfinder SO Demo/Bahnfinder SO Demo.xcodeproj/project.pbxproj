@@ -27,6 +27,8 @@
 		5794448729AC1FB600A1DF09 /* Public Definitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5794448629AC1FB600A1DF09 /* Public Definitions.swift */; };
 		FCC55F1929AD547E00277B43 /* MultiCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC55F1829AD547E00277B43 /* MultiCells.swift */; };
 		FCC55F1B29AF9ECC00277B43 /* DevFuncs.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC55F1A29AF9ECC00277B43 /* DevFuncs.swift */; };
+		FCC55F1D29AFA7DA00277B43 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC55F1C29AFA7DA00277B43 /* Protocols.swift */; };
+		FCC55F1F29AFA85A00277B43 /* DonMagDetailVergindungViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC55F1E29AFA85A00277B43 /* DonMagDetailVergindungViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +72,8 @@
 		5794448629AC1FB600A1DF09 /* Public Definitions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Public Definitions.swift"; sourceTree = "<group>"; };
 		FCC55F1829AD547E00277B43 /* MultiCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiCells.swift; sourceTree = "<group>"; };
 		FCC55F1A29AF9ECC00277B43 /* DevFuncs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevFuncs.swift; sourceTree = "<group>"; };
+		FCC55F1C29AFA7DA00277B43 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		FCC55F1E29AFA85A00277B43 /* DonMagDetailVergindungViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonMagDetailVergindungViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +133,7 @@
 				5794445129AC1F0600A1DF09 /* Info.plist */,
 				5794448429AC1FB300A1DF09 /* Extensions.swift */,
 				5794448629AC1FB600A1DF09 /* Public Definitions.swift */,
+				FCC55F1C29AFA7DA00277B43 /* Protocols.swift */,
 				5794447329AC1F3500A1DF09 /* detailVerbindungViewController.swift */,
 				5794447729AC1F3500A1DF09 /* detailVerbindungIntermediateStopsTableView.swift */,
 				5794447529AC1F3500A1DF09 /* detailVerbindungIntermediateStopsView.xib */,
@@ -136,6 +141,7 @@
 				5794447429AC1F3500A1DF09 /* detailVerbindungTableViewCell.swift */,
 				5794448029AC1F7300A1DF09 /* LineHalfTriangleView.swift */,
 				5794448129AC1F7300A1DF09 /* LineNumberLabel.swift */,
+				FCC55F1E29AFA85A00277B43 /* DonMagDetailVergindungViewController.swift */,
 				FCC55F1829AD547E00277B43 /* MultiCells.swift */,
 				FCC55F1A29AF9ECC00277B43 /* DevFuncs.swift */,
 			);
@@ -297,6 +303,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCC55F1F29AFA85A00277B43 /* DonMagDetailVergindungViewController.swift in Sources */,
 				5794447B29AC1F3500A1DF09 /* detailVerbindungIntermediateStopTableViewCell.swift in Sources */,
 				5794448529AC1FB300A1DF09 /* Extensions.swift in Sources */,
 				5794448329AC1F7300A1DF09 /* LineNumberLabel.swift in Sources */,
@@ -306,6 +313,7 @@
 				FCC55F1929AD547E00277B43 /* MultiCells.swift in Sources */,
 				5794448229AC1F7300A1DF09 /* LineHalfTriangleView.swift in Sources */,
 				5794447C29AC1F3500A1DF09 /* detailVerbindungIntermediateStopsTableView.swift in Sources */,
+				FCC55F1D29AFA7DA00277B43 /* Protocols.swift in Sources */,
 				5794447929AC1F3500A1DF09 /* detailVerbindungTableViewCell.swift in Sources */,
 				5794448729AC1FB600A1DF09 /* Public Definitions.swift in Sources */,
 				5794444629AC1F0500A1DF09 /* SceneDelegate.swift in Sources */,
