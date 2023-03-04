@@ -359,6 +359,22 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 			
 		}
 		
+		// MARK: a IndividualLeg (Walk) row
+		if resultLegArray[selectedIndex][0][arrayIndex] is IndividualLeg {
+			//Walk
+			//print("IndividualLeg")
+			let cell = tableView.dequeueReusableCell(withIdentifier: "walkCell", for: indexPath) as! BahnfinderWalkCell
+			cell.devLabel.isHidden = true
+			cell.timeMiddleLabel.text = " "
+
+			let tempIndLeg = resultLegArray[selectedIndex][0][arrayIndex] as! IndividualLeg
+			// cells are reused, so clear any intermediateStops that may have been set previously
+			cell.destinationLabel.text = "Fußweg: \(tempIndLeg.departure.getDistanceText(CLLocation(latitude: CLLocationDegrees(tempIndLeg.arrival.coord?.lat ?? 0)/1000000, longitude: CLLocationDegrees(tempIndLeg.arrival.coord?.lon ?? 0)/1000000)))"
+			sideColor = UIColor.lightGray
+			cell.sideLineView.backgroundColor = sideColor
+			return cell
+		}
+		
 		// MARK: a Detail row
 		// (it was not a .departure, .arrival or .connection row)
 		let cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! BahnfinderDetailCell
@@ -378,14 +394,10 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 		cell.chevronImageView.isHidden = true
 		cell.intermediateTableView.isHidden = true
 
-		cell.lineNumberLabel.isHidden = true
-		cell.walkImgView.isHidden = true
-		
 		if resultLegArray[selectedIndex][0][arrayIndex] is PublicLeg {
 			//Fahrzeug
 			//print("PublicLeg")
 			let tempPublicLeg = resultLegArray[selectedIndex][0][arrayIndex] as! PublicLeg
-			cell.lineNumberLabel.isHidden = false
 			cell.lineNumberLabel.text = tempPublicLeg.line.label ?? ""
 			cell.destinationLabel.text = tempPublicLeg.destination?.name
 			
@@ -472,15 +484,6 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 			
 			cell.intermediateTableView.isHidden = indexPath.row != expandedRowIndex
 			
-		} else {
-			//Walk
-			//print("IndividualLeg")
-			let tempIndLeg = resultLegArray[selectedIndex][0][arrayIndex] as! IndividualLeg
-			// cells are reused, so clear any intermediateStops that may have been set previously
-			cell.intermediateStops = []
-			cell.walkImgView.isHidden = false
-			cell.destinationLabel.text = "Fußweg: \(tempIndLeg.departure.getDistanceText(CLLocation(latitude: CLLocationDegrees(tempIndLeg.arrival.coord?.lat ?? 0)/1000000, longitude: CLLocationDegrees(tempIndLeg.arrival.coord?.lon ?? 0)/1000000)))"
-			sideColor = UIColor.lightGray
 		}
 		
 		cell.sideLineView.backgroundColor = sideColor

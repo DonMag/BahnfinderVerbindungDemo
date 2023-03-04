@@ -50,6 +50,17 @@ class BahnfinderConnectionCell: UITableViewCell {
 	
 }
 
+// MARK: Walk Cell
+class BahnfinderWalkCell: UITableViewCell {
+	
+	@IBOutlet var sideLineView: UIView!
+	@IBOutlet var timeMiddleLabel: UILabel!
+	@IBOutlet var walkImgView: UIImageView!
+	@IBOutlet var destinationLabel: UILabel!
+	@IBOutlet var devLabel: UILabel!
+	
+}
+
 // MARK: Detail Cell
 //	this cell has the "Intermediate Stops" table
 //	will only be visible if there are "Stops"
@@ -58,7 +69,6 @@ class BahnfinderDetailCell: UITableViewCell, UITableViewDataSource, UITableViewD
 	
 	@IBOutlet var sideLineView: UIView!
 	@IBOutlet var lineNumberLabel: LineNumberLabel!
-	@IBOutlet var walkImgView: UIImageView!
 	
 	@IBOutlet var timeTopLabel: UILabel!
 	@IBOutlet var timeMiddleLabel: UILabel!
