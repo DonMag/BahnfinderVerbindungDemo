@@ -29,7 +29,6 @@
 		FCC55F1B29AF9ECC00277B43 /* DevFuncs.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC55F1A29AF9ECC00277B43 /* DevFuncs.swift */; };
 		FCC55F1D29AFA7DA00277B43 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC55F1C29AFA7DA00277B43 /* Protocols.swift */; };
 		FCC55F1F29AFA85A00277B43 /* DonMagDetailVergindungViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC55F1E29AFA85A00277B43 /* DonMagDetailVergindungViewController.swift */; };
-		FCC55F2229AFAEAB00277B43 /* sample.trips in Resources */ = {isa = PBXBuildFile; fileRef = FCC55F2129AFAEAB00277B43 /* sample.trips */; };
 		FCC55F2629AFBB7200277B43 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC55F2529AFBB7200277B43 /* MenuViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -76,7 +75,6 @@
 		FCC55F1A29AF9ECC00277B43 /* DevFuncs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevFuncs.swift; sourceTree = "<group>"; };
 		FCC55F1C29AFA7DA00277B43 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		FCC55F1E29AFA85A00277B43 /* DonMagDetailVergindungViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonMagDetailVergindungViewController.swift; sourceTree = "<group>"; };
-		FCC55F2129AFAEAB00277B43 /* sample.trips */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = sample.trips; sourceTree = "<group>"; };
 		FCC55F2529AFBB7200277B43 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -149,7 +147,6 @@
 				FCC55F1829AD547E00277B43 /* MultiCells.swift */,
 				FCC55F1A29AF9ECC00277B43 /* DevFuncs.swift */,
 				FCC55F2529AFBB7200277B43 /* MenuViewController.swift */,
-				FCC55F2029AFAE9F00277B43 /* Trips */,
 			);
 			path = "Bahnfinder SO Demo";
 			sourceTree = "<group>";
@@ -169,14 +166,6 @@
 				5794446629AC1F0700A1DF09 /* Bahnfinder_SO_DemoUITestsLaunchTests.swift */,
 			);
 			path = "Bahnfinder SO DemoUITests";
-			sourceTree = "<group>";
-		};
-		FCC55F2029AFAE9F00277B43 /* Trips */ = {
-			isa = PBXGroup;
-			children = (
-				FCC55F2129AFAEAB00277B43 /* sample.trips */,
-			);
-			path = Trips;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -291,7 +280,6 @@
 			files = (
 				5794447A29AC1F3500A1DF09 /* detailVerbindungIntermediateStopsView.xib in Resources */,
 				5794445029AC1F0600A1DF09 /* LaunchScreen.storyboard in Resources */,
-				FCC55F2229AFAEAB00277B43 /* sample.trips in Resources */,
 				5794444D29AC1F0600A1DF09 /* Assets.xcassets in Resources */,
 				5794444B29AC1F0500A1DF09 /* Main.storyboard in Resources */,
 			);

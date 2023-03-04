@@ -13,6 +13,7 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 	
 	var loadTripsFrom: LoadTripsFrom = .live
 	var savedTripsURL: URL?
+	var liveDateTime: Date = Date()
 
 	var spinner = UIActivityIndicatorView()
 	
@@ -38,8 +39,6 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
-		title = "Original Version"
 		
 		if navigationController != nil {
 			// add a rightBarButtonItem so we can Save the current resultTripsArray
@@ -84,7 +83,7 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 			else
 			{
 				// This function is normally executed by the ViewController before:
-				let d = Date()
+				let d = liveDateTime
 				
 				let (request, result) = await provider.queryTrips(from: Location(id: "A=1@O=Ratzeburg@X=10740635@Y=53698214@U=80@L=8004952@B=1@p=1677095209@"), via: nil, to: Location(id: "A=1@O=Kaiserstraße, Neubiberg@X=11666920@Y=48075399@u=120@U=80@L=622352@"), date: d)
 				

@@ -14,58 +14,73 @@ enum LoadTripsFrom: Int {
 class MenuViewController: UIViewController {
 
 	@IBOutlet var segCtrl: UISegmentedControl!
+	@IBOutlet var liveOptions: UIStackView!
+	@IBOutlet var timeSwitch: UISwitch!
+	@IBOutlet var datePicker: UIDatePicker!
 	
-    override func viewDidLoad() {
+	override func viewDidLoad() {
         super.viewDidLoad()
 
-    }
-
-	@IBAction func btnTapped(_ sender: Any) {
-		guard let btn = sender as? UIButton,
-			  let t = btn.configuration?.title
-		else { return }
+		title = "Menu"
 		
-		var loadTripsFrom: LoadTripsFrom = .live
-		var savedTripsURL: URL?
+		segCtrl.selectedSegmentIndex = 0
+		timeSwitch.isOn = false
+		datePicker.isHidden = true
+		
+    }
+	
+	@IBAction func segChanged(_ sender: Any) {
+		guard let sc = sender as? UISegmentedControl else { return }
 
-		if segCtrl.selectedSegmentIndex == 2 {
+		if sc.selectedSegmentIndex == 1 {
 			// "Last Saved" is selected, make sure we have a saved trip
 			let fullURL = getDocumentsDirectory().appendingPathComponent("saved.trips")
 			let filePath = fullURL.path
 			let fileManager = FileManager.default
 			if !fileManager.fileExists(atPath: filePath) {
-				print("No Saved Trip")
+				let alertController = UIAlertController(title: "Alert", message: "No Saved Trip Found", preferredStyle: .alert)
+				let OKAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in
+				}
+				alertController.addAction(OKAction)
+				self.present(alertController, animated: true, completion:nil)
+				sc.selectedSegmentIndex = 0
 				return
 			}
-			if t == "Original" {
-				if let vc = storyboard?.instantiateViewController(withIdentifier: "detailVerbindung") as? detailVerbindungViewController {
-					vc.loadTripsFrom = .saved
-					vc.savedTripsURL = fullURL
-					navigationController?.pushViewController(vc, animated: true)
-				}
-			} else {
-				if let vc = storyboard?.instantiateViewController(withIdentifier: "donMagDetailVerbindung") as? DonMagDetailVergindungViewController {
-					vc.loadTripsFrom = .saved
-					vc.savedTripsURL = fullURL
-					navigationController?.pushViewController(vc, animated: true)
-				}
-			}
-			return
 		}
+
+		liveOptions.isHidden = sc.selectedSegmentIndex != 0
+	}
+	
+	@IBAction func timeSwitchChanged(_ sender: Any) {
+		guard let sw = sender as? UISwitch else { return }
+		datePicker.isHidden = !sw.isOn
+	}
+	
+	@IBAction func dateChanged(_ sender: Any) {
+		guard let picker = sender as? UIDatePicker else { return }
+		print(picker.date)
+	}
+	
+	@IBAction func btnTapped(_ sender: Any) {
+		guard let btn = sender as? UIButton,
+			  let t = btn.configuration?.title
+		else { return }
 		
 		if segCtrl.selectedSegmentIndex == 1 {
-			// "Sample Trip" is selected, so use the sample from the bundle
-			let urlPath = Bundle.main.url(forResource: "sample", withExtension: "trips")
+			// "Last Saved" is selected
+			let fullURL = getDocumentsDirectory().appendingPathComponent("saved.trips")
 			if t == "Original" {
 				if let vc = storyboard?.instantiateViewController(withIdentifier: "detailVerbindung") as? detailVerbindungViewController {
 					vc.loadTripsFrom = .saved
-					vc.savedTripsURL = urlPath
+					vc.savedTripsURL = fullURL
+					vc.title = "Original - Saved"
 					navigationController?.pushViewController(vc, animated: true)
 				}
 			} else {
 				if let vc = storyboard?.instantiateViewController(withIdentifier: "donMagDetailVerbindung") as? DonMagDetailVergindungViewController {
 					vc.loadTripsFrom = .saved
-					vc.savedTripsURL = urlPath
+					vc.savedTripsURL = fullURL
+					vc.title = "DonMag - Saved"
 					navigationController?.pushViewController(vc, animated: true)
 				}
 			}
@@ -77,11 +92,19 @@ class MenuViewController: UIViewController {
 			if t == "Original" {
 				if let vc = storyboard?.instantiateViewController(withIdentifier: "detailVerbindung") as? detailVerbindungViewController {
 					vc.loadTripsFrom = .live
+					if timeSwitch.isOn {
+						vc.liveDateTime = datePicker.date
+					}
+					vc.title = "Original - Live"
 					navigationController?.pushViewController(vc, animated: true)
 				}
 			} else {
 				if let vc = storyboard?.instantiateViewController(withIdentifier: "donMagDetailVerbindung") as? DonMagDetailVergindungViewController {
 					vc.loadTripsFrom = .live
+					if timeSwitch.isOn {
+						vc.liveDateTime = datePicker.date
+					}
+					vc.title = "DonMag - Live"
 					navigationController?.pushViewController(vc, animated: true)
 				}
 			}

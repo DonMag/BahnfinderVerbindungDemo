@@ -14,14 +14,19 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 
 	var loadTripsFrom: LoadTripsFrom = .live
 	var savedTripsURL: URL?
+	var liveDateTime: Date = Date()
 	
 	var spinner = UIActivityIndicatorView()
 	
 	@IBOutlet var mainTableView: UITableView!
 	@IBOutlet var durationLabel: UILabel!
 	
-	var resultTripsArray = [Trip]()
-	var resultLegArray = [[[Leg]]]()
+//	var resultTripsArray = [Trip]()
+//	var resultLegArray = [[[Leg]]]()
+	
+	var resultTripsArray: [Trip] = []
+	var resultLegArray: [[[Leg]]] = []
+	
 	var selectedIndex = 0
 	let refreshControl = UIRefreshControl()
 	var provider: NetworkProvider = currentProvider()
@@ -40,8 +45,6 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		title = "DonMag Version"
-		
 		if navigationController != nil {
 			// add a rightBarButtonItem so we can Save the current resultTripsArray
 			navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveTapped))
@@ -55,7 +58,6 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 			spinner.centerXAnchor.constraint(equalTo: mainTableView.centerXAnchor),
 			spinner.topAnchor.constraint(equalTo: mainTableView.topAnchor, constant: 30.0),
 		])
-		spinner.startAnimating()
 		
 		mainTableView.separatorStyle = .none
 
@@ -85,8 +87,8 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 			else
 			{
 				// This function is normally executed by the ViewController before:
-				let d = Date()
-				
+				let d = liveDateTime
+
 				let (request, result) = await provider.queryTrips(from: Location(id: "A=1@O=Ratzeburg@X=10740635@Y=53698214@U=80@L=8004952@B=1@p=1677095209@"), via: nil, to: Location(id: "A=1@O=Kaiserstraße, Neubiberg@X=11666920@Y=48075399@u=120@U=80@L=622352@"), date: d)
 				
 				switch result {
@@ -181,10 +183,6 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 		var sideTopColor = UIColor.clear
 		var sideBottomColor = UIColor.clear
 		
-		// for code readability...
-		//	instead of a lot of resultLegArray[selectedIndex][0]
-		let thisResultLeg = resultLegArray[selectedIndex]
-		let thisLeg = thisResultLeg[0]
 		let arrayIndex = indexPath.row / 2
 		
 		var rowType: RowType = .detail
@@ -193,7 +191,7 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 		if indexPath.row % 2 == 0 {
 			if indexPath.row == 0 {
 				rowType = .departure
-			} else if arrayIndex == thisLeg.count {
+			} else if arrayIndex == resultLegArray[selectedIndex][0].count {
 				rowType = .arrival
 			} else {
 				rowType = .connection
@@ -205,12 +203,15 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 			
 			let cell = tableView.dequeueReusableCell(withIdentifier: "departureCell", for: indexPath) as! BahnfinderDepartureCell
 			
-			cell.timeMiddleLabel.text = ""
+			cell.devLabel.isHidden = true
 			
-			if thisLeg[arrayIndex] is PublicLeg {
+			cell.timeMiddleLabel.text = " "
+
+			cell.destinationLabel.text = resultLegArray[selectedIndex][0][arrayIndex].departure.name
+
+			if resultLegArray[selectedIndex][0].last is PublicLeg {
 				//print("PublicLeg")
-				
-				let tempPublicLeg = thisLeg[arrayIndex] as! PublicLeg
+				let tempPublicLeg = resultLegArray[selectedIndex][0][arrayIndex] as! PublicLeg
 				if tempPublicLeg.departureStop.predictedTime == nil {
 					cell.timeMiddleLabel.textColor = .label
 					cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempPublicLeg.departureStop.plannedTime)
@@ -228,30 +229,32 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 				sideColor = UIColor(argb: tempPublicLeg.line.style.backgroundColor)
 			} else {
 				//print("IndividualLeg")
-				let tempIndLeg = thisLeg[arrayIndex] as! IndividualLeg
+				let tempIndLeg = resultLegArray[selectedIndex][0][arrayIndex] as! IndividualLeg
 				sideColor = UIColor.lightGray
 				cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempIndLeg.departureTime)
 				cell.timeMiddleLabel.textColor = UIColor.label
 			}
 			
-			cell.devLabel.isHidden = true
 			cell.sideLineView.backgroundColor = sideColor
 			cell.horzLineView.backgroundColor = sideColor
-			cell.destinationLabel.text = thisLeg[arrayIndex].departure.name
+
 			return cell
 			
 		}
 		
+		// MARK: the Last row
 		if rowType == .arrival {
-			
-			// MARK: the Last row
 			let cell = tableView.dequeueReusableCell(withIdentifier: "arrivalCell", for: indexPath) as! BahnfinderArrivalCell
 			
-			cell.timeMiddleLabel.text = ""
-			
-			if thisLeg.last is PublicLeg {
+			cell.devLabel.isHidden = true
+
+			cell.timeMiddleLabel.text = " "
+
+			cell.destinationLabel.text = resultLegArray[selectedIndex][0].last?.arrival.name
+
+			if resultLegArray[selectedIndex][0].last is PublicLeg {
 				//print("PublicLeg")
-				let tempPublicLeg = thisLeg.last as! PublicLeg
+				let tempPublicLeg = resultLegArray[selectedIndex][0].last as! PublicLeg
 				if tempPublicLeg.arrivalStop.predictedTime == nil {
 					cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempPublicLeg.plannedArrivalTime)
 					cell.timeMiddleLabel.textColor = UIColor.label
@@ -270,32 +273,33 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 				sideColor = UIColor(argb: tempPublicLeg.line.style.backgroundColor)
 			} else {
 				//print("IndividualLeg")
-				let tempIndLeg = thisLeg.last as! IndividualLeg
+				let tempIndLeg = resultLegArray[selectedIndex][0].last as! IndividualLeg
 				cell.timeMiddleLabel.text = timeFormatHHMM.string(from: tempIndLeg.arrivalTime)
 				cell.timeMiddleLabel.textColor = UIColor.label
 				sideColor = UIColor.lightGray
 			}
 			
-			cell.devLabel.isHidden = true
 			cell.sideLineView.backgroundColor = sideColor
 			cell.horzLineView.backgroundColor = sideColor
-			cell.destinationLabel.text = thisLeg.last?.arrival.name
+
 			return cell
 			
 		}
 		
+		// MARK: a "Connection" row
 		if rowType == .connection {
-			
-			// MARK: a "Connection" row
 			let cell = tableView.dequeueReusableCell(withIdentifier: "connectionCell", for: indexPath) as! BahnfinderConnectionCell
 			
-			cell.timeTopLabel.text = ""
-			cell.timeBottomLabel.text = ""
+			cell.devLabel.isHidden = true
 			
-			if thisLeg[arrayIndex] is PublicLeg {
+			cell.timeTopLabel.text = " "
+			cell.timeBottomLabel.text = " "
+
+			cell.destinationLabel.text = resultLegArray[selectedIndex][0][arrayIndex].departure.name
+
+			if resultLegArray[selectedIndex][0][arrayIndex] is PublicLeg {
 				//print("PublicLeg")
-				let tempPublicLeg = thisLeg[arrayIndex] as! PublicLeg
-				
+				let tempPublicLeg = resultLegArray[selectedIndex][0][arrayIndex] as! PublicLeg
 				if tempPublicLeg.departureStop.predictedTime == nil {
 					cell.timeBottomLabel.textColor = .label
 					cell.timeBottomLabel.text = timeFormatHHMM.string(from: tempPublicLeg.departureStop.plannedTime)
@@ -313,25 +317,25 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 				sideBottomColor = UIColor(argb: tempPublicLeg.line.style.backgroundColor)
 			} else {
 				//print("IndividualLeg")
-				let tempIndLeg = thisLeg[arrayIndex] as! IndividualLeg
+				let tempIndLeg = resultLegArray[selectedIndex][0][arrayIndex] as! IndividualLeg
 				sideBottomColor = UIColor.lightGray
 				cell.timeBottomLabel.text = timeFormatHHMM.string(from: tempIndLeg.departureTime)
 				cell.timeBottomLabel.textColor = UIColor.label
 			}
 			
-			if thisLeg[arrayIndex-1] is PublicLeg { //Line before current
+			if resultLegArray[selectedIndex][0][arrayIndex-1] is PublicLeg { //Line before current
 				//print("PublicLeg")
-				let tempPublicLeg = thisLeg[arrayIndex-1] as! PublicLeg
+				let tempPublicLeg = resultLegArray[selectedIndex][0][arrayIndex-1] as! PublicLeg
 				sideTopColor = UIColor(argb: tempPublicLeg.line.style.backgroundColor)
 				if tempPublicLeg.arrivalStop.predictedTime == nil {
 					cell.timeTopLabel.textColor = .label
 					cell.timeTopLabel.text = timeFormatHHMM.string(from: tempPublicLeg.arrivalStop.plannedTime)
 				} else if tempPublicLeg.arrivalStop.plannedTime == tempPublicLeg.arrivalStop.predictedTime {
-					cell.timeTopLabel.text = timeFormatHHMM.string(from: thisLeg[arrayIndex-1].arrivalTime)
+					cell.timeTopLabel.text = timeFormatHHMM.string(from: resultLegArray[selectedIndex][0][arrayIndex-1].arrivalTime)
 					cell.timeTopLabel.textColor = UIColor.systemGreen
 				} else {
-					let timeDifference = thisLeg[arrayIndex-1].plannedArrivalTime.distance(to: thisLeg[arrayIndex-1].arrivalTime )
-					cell.timeTopLabel.text = timeFormatHHMM.string(from: thisLeg[arrayIndex-1].arrivalTime)
+					let timeDifference = resultLegArray[selectedIndex][0][arrayIndex-1].plannedArrivalTime.distance(to: resultLegArray[selectedIndex][0][arrayIndex-1].arrivalTime )
+					cell.timeTopLabel.text = timeFormatHHMM.string(from: resultLegArray[selectedIndex][0][arrayIndex-1].arrivalTime)
 					cell.timeTopLabel.textColor = UIColor.systemRed
 					if timeDifference.stringFromTimeIntervalOnlyNumber().contains("-") == true {
 						cell.timeTopLabel.textColor = UIColor.systemBlue
@@ -339,18 +343,18 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 				}
 			} else {
 				//print("IndividualLeg")
-				let tempIndLeg = thisLeg[arrayIndex-1] as! IndividualLeg
+				let tempIndLeg = resultLegArray[selectedIndex][0][arrayIndex-1] as! IndividualLeg
 				sideTopColor = UIColor.lightGray
 				cell.timeTopLabel.text = timeFormatHHMM.string(from: tempIndLeg.arrivalTime)
 				cell.timeTopLabel.textColor = UIColor.label
 			}
 			
-			cell.devLabel.isHidden = true
 			cell.sideTopLineView.backgroundColor = sideTopColor
 			cell.horzTopLineView.backgroundColor = sideTopColor
+
 			cell.sideBottomLineView.backgroundColor = sideBottomColor
 			cell.horzBottomLineView.backgroundColor = sideBottomColor
-			cell.destinationLabel.text = thisLeg.last?.arrival.name
+
 			return cell
 			
 		}
@@ -359,32 +363,28 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 		// (it was not a .departure, .arrival or .connection row)
 		let cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! BahnfinderDetailCell
 		
-		// dev only
-		//cell.timeTopLabel.backgroundColor = .cyan
-		//cell.timeMiddleLabel.backgroundColor = .yellow
-		//cell.timeBottomLabel.backgroundColor = .green
+		cell.devLabel.isHidden = true
 
-		cell.timeTopLabel.isHidden = false
-		cell.timeMiddleLabel.isHidden = true
-		cell.timeBottomLabel.isHidden = false
-		
 		cell.timeTopLabel.text = " "
 		cell.timeMiddleLabel.text = " "
 		cell.timeBottomLabel.text = " "
 		
+		cell.timeTopLabel.isHidden = false
+		cell.timeMiddleLabel.isHidden = true
+		cell.timeBottomLabel.isHidden = false
 		cell.timeSeperatorView.isHidden = true
 		
-		// we will show these if needed
+		// we will show these as needed
 		cell.chevronImageView.isHidden = true
 		cell.intermediateTableView.isHidden = true
-		
+
 		cell.lineNumberLabel.isHidden = true
 		cell.walkImgView.isHidden = true
 		
-		if thisLeg[arrayIndex] is PublicLeg {
+		if resultLegArray[selectedIndex][0][arrayIndex] is PublicLeg {
 			//Fahrzeug
 			//print("PublicLeg")
-			let tempPublicLeg = thisLeg[arrayIndex] as! PublicLeg
+			let tempPublicLeg = resultLegArray[selectedIndex][0][arrayIndex] as! PublicLeg
 			cell.lineNumberLabel.isHidden = false
 			cell.lineNumberLabel.text = tempPublicLeg.line.label ?? ""
 			cell.destinationLabel.text = tempPublicLeg.destination?.name
@@ -425,7 +425,6 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 				let timeDifference = tempPublicLeg.plannedDepartureTime.distance(to: tempPublicLeg.departureTime )
 				cell.timeTopLabel.text = timeDifference.stringFromTimeIntervalWithText()
 				cell.timeTopLabel.textColor = UIColor.systemRed
-				//cell.timeTopLabel.isHidden = false
 				cell.timeTopLabel.text = "+ \(timeDifference.stringFromTimeIntervalOnlyNumber())"
 				cell.timeSeperatorView.isHidden = false
 				if cell.timeTopLabel.text?.contains("-") == true {
@@ -439,7 +438,6 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 				let timeDifference = tempPublicLeg.plannedArrivalTime.distance(to: tempPublicLeg.arrivalTime )
 				cell.timeBottomLabel.text = timeDifference.stringFromTimeIntervalWithText()
 				cell.timeBottomLabel.textColor = UIColor.systemRed
-				//cell.timeBottomLabel.isHidden = false
 				cell.timeBottomLabel.text = "+ \(timeDifference.stringFromTimeIntervalOnlyNumber())"
 				cell.timeSeperatorView.isHidden = false
 				if cell.timeBottomLabel.text?.contains("-") == true {
@@ -477,7 +475,7 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 		} else {
 			//Walk
 			//print("IndividualLeg")
-			let tempIndLeg = thisLeg[arrayIndex] as! IndividualLeg
+			let tempIndLeg = resultLegArray[selectedIndex][0][arrayIndex] as! IndividualLeg
 			// cells are reused, so clear any intermediateStops that may have been set previously
 			cell.intermediateStops = []
 			cell.walkImgView.isHidden = false
@@ -485,7 +483,6 @@ class DonMagDetailVergindungViewController: UIViewController, UITableViewDelegat
 			sideColor = UIColor.lightGray
 		}
 		
-		cell.devLabel.isHidden = true
 		cell.sideLineView.backgroundColor = sideColor
 		
 		return cell

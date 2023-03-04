@@ -18,10 +18,6 @@ class BahnfinderDepartureCell: UITableViewCell {
 	@IBOutlet var destinationLabel: UILabel!
 	@IBOutlet var devLabel: UILabel!
 
-	override func awakeFromNib() {
-		super.awakeFromNib()
-		contentView.backgroundColor = .systemBackground
-	}
 }
 
 // MARK: Arrival Cell
@@ -34,10 +30,6 @@ class BahnfinderArrivalCell: UITableViewCell {
 	@IBOutlet var destinationLabel: UILabel!
 	@IBOutlet var devLabel: UILabel!
 	
-	override func awakeFromNib() {
-		super.awakeFromNib()
-		contentView.backgroundColor = .systemBackground
-	}
 }
 
 // MARK: Connection Cell
@@ -56,10 +48,6 @@ class BahnfinderConnectionCell: UITableViewCell {
 	@IBOutlet var destinationLabel: UILabel!
 	@IBOutlet var devLabel: UILabel!
 	
-	override func awakeFromNib() {
-		super.awakeFromNib()
-		contentView.backgroundColor = .systemBackground
-	}
 }
 
 // MARK: Detail Cell
@@ -97,8 +85,6 @@ class BahnfinderDetailCell: UITableViewCell, UITableViewDataSource, UITableViewD
 		intermediateTableView.delegate = self
 		intermediateTableView.rowHeight = 20
 		intermediateTableView.separatorInset.left = 96
-
-		contentView.backgroundColor = .systemBackground
 
 	}
 	
@@ -172,6 +158,5 @@ class BahnfinderIntermediateStopCell: UITableViewCell {
 	@IBOutlet var timeLabel: UILabel!
 	@IBOutlet var stopLabel: UILabel!
 	@IBOutlet var rightLabel: UILabel!
-	
 }
 
