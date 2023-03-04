@@ -40,7 +40,8 @@ class detailVerbindungViewController: UIViewController, UITableViewDelegate, UIT
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		if navigationController != nil {
+		// don't show Save button if we're using a saved dataset
+		if loadTripsFrom == .live, navigationController != nil {
 			// add a rightBarButtonItem so we can Save the current resultTripsArray
 			navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveTapped))
 		}
